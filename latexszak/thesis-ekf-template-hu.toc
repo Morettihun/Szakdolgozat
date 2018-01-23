@@ -1,0 +1,3 @@
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Fejezet c\IeC {\'\i }me}{4}{chapter.1}
+\select@language {magyar} \contentsline {section}{\numberline {1.1}Szakasz c\IeC {\'\i }me}{4}{section.1.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {1.1.1}Alszakasz c\IeC {\'\i }me}{4}{subsection.1.1.1}
