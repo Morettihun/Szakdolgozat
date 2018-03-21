@@ -1,0 +1,37 @@
+Bgworker használata
+OOP-ésítés
+MySQL motorváltó és CSV logging
+Miért kell a GC.Collect -> Mert a appendalltext meghívja a threadingbe a szarját és nem collectol.
+DML utasítsok only. Load data kivétele és egyedi queryként futtatás.
+
+ID-k azért vannak, hogy a random generálás miatt ne lassítsa a feltöltést az ismétlõdõ kulcs (NK).
+Mérés a programból és mérés phpmyadminon keresztül (Csv importálása).
+Gyorsítás:
+Bulk LOAD DATA INFILE
+Indexelés kikapcsolása ideuglenesen
+
+The MySQL server is running with the --secure-file-priv option so it cannot execute this statement
+My.ini-ben megtalálható a megfelelõ mappa:
+secure_file_priv="c:/wamp64/tmp".
+Én ezt átállítottam a saját projektem mappájára.
+secure_file_priv="C:\Users\P\Desktop\SzakDolg_SP_2018\SzakDolg_SP_2018\bin\Debug"
+Ezután restart all services.
+Így már emgy a Load Data
+sql-mode="STRICT_TRANS_TABLES kivenni
+
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!
+NoSQL és a BigData manapság együtt jár <- egybeírom a kettõt így. Amazonn, Ebay stb
+Bemutatom mi mire jó. Aztán a mérések, mely alátámasztják, hogy tényleg arrak jó, amiket írtam. hihihihihihihiiiiiiiiiiiiiiiiiiiiii
+
+SHOW PROFILE az sessionos és úgy kell settelni midnig.
+
+Auto incrementer.
+https://blog.couchbase.com/using-autonumber-in-couchbase/
+Ez a fajta db nem tartalmaz auto incrementet, de megoldható egy létrehozott szarral.
+Couchbase handles sequence generation by what is known as a “counter” document. Counter is a document that can be incremented or decremented sequentially. An important thing to note here is that the increment or decrement operation of the counter is atomic. When we insert a business entity (such as Product in our case) as a JSON document, we can use the counter document with a key pattern to generate a sequence.
+
+Postal Code legyen a Prim_Key, ne ID legyen.
