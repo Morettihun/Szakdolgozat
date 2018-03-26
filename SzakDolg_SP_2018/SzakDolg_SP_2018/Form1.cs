@@ -21,15 +21,19 @@ namespace SzakDolg_SP_2018
     public partial class Form1 : Form
     {
         
-        static string connectionString = "SERVER=localhost;PORT=3306;" + "DATABASE=szakdolgozat;" + "UID=sarlpa;" + "PASSWORD=Patrik;";
-        MySqlConnection conn = new MySqlConnection(connectionString);
+        static string connStringMyS = "SERVER=localhost;PORT=3306;" + "DATABASE=szakdolgozat;" + "UID=sarlpa;" + "PASSWORD=Patrik;";
+        MySqlConnection connMyS = new MySqlConnection(connStringMyS);
 
-        static string connectionString2 = "SERVER=localhost;PORT=3306;" + "DATABASE=information_schema;" + "UID=sarlpa;" + "PASSWORD=Patrik;";
-        MySqlConnection conn2 = new MySqlConnection(connectionString2);
+        static string connStringPG = "SERVER=localhost;PORT=5432;" + "DATABASE=szakdolgozat;" + "UID=postgres;" + "PASSWORD=Patrik;";
+        NpgsqlConnection connPG = new NpgsqlConnection(connStringPG);
+
+        //static string connectionString2 = "SERVER=localhost;PORT=3306;" + "DATABASE=information_schema;" + "UID=sarlpa;" + "PASSWORD=Patrik;";
+       // MySqlConnection conn2 = new MySqlConnection(connectionString2);
         
         string generatedpath = @"datas\generatedstudents.csv";
         string logpath_mysql = @"log\mysql_log.csv";
         string logpath_postgresql = @"log\postgresql_log.csv";
+        string logpath_couchbase = @"log\couchbase_log.csv";
         Stopwatch run_Timing = new Stopwatch();
         public Form1()
         {
@@ -49,7 +53,7 @@ namespace SzakDolg_SP_2018
             int rows = 0;
             
             cmd.CommandType = CommandType.Text;
-            cmd.Connection = conn;
+            cmd.Connection = connMyS;
             
             run_Timing.Start();
             rows += cmd.ExecuteNonQuery();
@@ -112,7 +116,7 @@ namespace SzakDolg_SP_2018
 
         }
 
-#region MySQL
+        #region MySQL
         //Random adatok feltöltése
         private void button1_Click(object sender, EventArgs e)
         {
@@ -121,11 +125,11 @@ namespace SzakDolg_SP_2018
             try
             {
                 StreamReader srgen = new StreamReader(generatedpath);               
-                conn.Open();
+                connMyS.Open();
 
                 MySqlCommand comm2 = new MySqlCommand();
                 comm2.CommandType = CommandType.Text;
-                comm2.Connection = conn;
+                comm2.Connection = connMyS;
                 comm2.CommandText = "SET profiling=1;";
                 runMySQL(comm2);
 
@@ -161,18 +165,18 @@ namespace SzakDolg_SP_2018
 
                     label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: "+rows;                   
                 }
-                conn.Close();
+                connMyS.Close();
                 log_Query(logpath_mysql, "DML_INSERT", rows, run_Timing.ElapsedMilliseconds);
             }
             catch(MySqlException ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
+                connMyS.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
+                connMyS.Close();
             }
         }
 
@@ -184,7 +188,7 @@ namespace SzakDolg_SP_2018
             run_Timing.Reset();
             try
             {
-                conn.Open();
+                connMyS.Open();
 
                     MySqlCommand comm = new MySqlCommand();
                     comm.CommandText = @"LOAD DATA INFILE 'generatedstudents.csv' INTO TABLE tanulok columns TERMINATED BY ';' LINES TERMINATED BY '" + Environment.NewLine + "' (NK,Nev,Email,Varos_id) SET ID=NULL;";
@@ -193,18 +197,18 @@ namespace SzakDolg_SP_2018
 
                     label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;               
 
-                conn.Close();
+                connMyS.Close();
                 log_Query(logpath_mysql, "LOAD_DATA", rows, run_Timing.ElapsedMilliseconds);
             }
             catch (MySqlException ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
+                connMyS.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
+                connMyS.Close();
             }
         }
 
@@ -219,13 +223,13 @@ namespace SzakDolg_SP_2018
             {
                 try
                 {
-                    conn.Open();
+                    connMyS.Open();
                     MySqlCommand comm = new MySqlCommand();
                     comm.CommandText = "DELETE FROM tanulok WHERE 1;";
 
                     rows = runMySQL(comm);
 
-                    conn.Close();
+                    connMyS.Close();
                     label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
                     log_Query(logpath_mysql, "DELETE", rows, run_Timing.ElapsedMilliseconds);                   
@@ -233,12 +237,12 @@ namespace SzakDolg_SP_2018
                 catch (MySqlException ex)
                 {
                     MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                    conn.Close();
+                    connMyS.Close();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                    conn.Close();
+                    connMyS.Close();
                 }
             }
 
@@ -252,13 +256,13 @@ namespace SzakDolg_SP_2018
             run_Timing.Reset();
             try
             {
-                conn.Open();
+                connMyS.Open();
                 MySqlCommand comm = new MySqlCommand();
                 comm.CommandText = "SELECT * FROM Tanulok;";
 
                 rows = runMySQL(comm);
 
-                conn.Close();
+                connMyS.Close();
                 label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
                 log_Query(logpath_mysql, "SELECT *", rows, run_Timing.ElapsedMilliseconds);
@@ -266,30 +270,107 @@ namespace SzakDolg_SP_2018
             catch (MySqlException ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
+                connMyS.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
+                connMyS.Close();
+            }
+        }
+
+        private void button_QueryMys_Click(object sender, EventArgs e)
+        {
+
+            int rows = 0;
+            run_Timing.Reset();
+            //List<int> rt = new List<int>();
+            //List<long> elms = new List<long>();
+            try
+            {
+                connMyS.Open();
+
+                MySqlCommand comm = new MySqlCommand();
+                comm.CommandText = rTB_QueryMys.Text;
+                for (int i = 0; i < nUd_HanyszorMyS.Value; i++)
+                {
+                    run_Timing.Reset();
+                    rows = runMySQL(comm);
+                    log_Query(logpath_mysql, "Egyedi: " + rTB_QueryMys.Text, rows, run_Timing.ElapsedMilliseconds);
+                    //rt.Add(rows);
+                    //elms.Add(run_Timing.ElapsedMilliseconds);
+                }
+
+                label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                connMyS.Close();
+                //for (int i = 0; i < nUd_HanyszorMyS.Value; i++)
+                //{
+                //    log_Query(logpath_mysql, "Egyedi: " + rTB_QueryMys.Text, rt[i], elms[i]);
+                //}
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+                connMyS.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+                connMyS.Close();
+            }
+        }
+
+        private void button_UpdateMys_Click(object sender, EventArgs e)
+        {
+            int rows = 0;
+            run_Timing.Reset();
+            try
+            {
+                connMyS.Open();
+
+                MySqlCommand comm = new MySqlCommand();
+                comm.CommandText = "UPDATE Tanulok SET Email='updatelt@gmail.com' WHERE 1";
+
+                rows = runMySQL(comm);
+
+                label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                connMyS.Close();
+
+                log_Query(logpath_mysql, "UPDATE", rows, run_Timing.ElapsedMilliseconds);
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+                connMyS.Close();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+                connMyS.Close();
             }
         }
 #endregion
+
+
         #region PostGRESQL
 
         #endregion
+    
 
         #region CouchBase
-        private void viu()
+        private void button_InsertCouchB_Click(object sender, EventArgs e)
         {
             run_Timing.Reset();
+            //Adatok beolvasása
             List<string> listNK = new List<string>();
             List<string> listName = new List<string>();
             List<string> listEmail = new List<string>();
             List<string> listPostalID = new List<string>();
             using (var reader = new StreamReader(@"datas\generatedstudents.csv"))
             {
-                
+
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
@@ -301,6 +382,7 @@ namespace SzakDolg_SP_2018
                     listPostalID.Add(values[3]);
                 }
             }
+            //Kapcsolódás
             try
             {
                 var cb = new Cluster(new ClientConfiguration
@@ -309,6 +391,7 @@ namespace SzakDolg_SP_2018
                 });
                 cb.Authenticate("admin", "Patrik");
                 var bucket = cb.OpenBucket("szakd");
+
                 //string qq = "SELECT country FROM `travel-sample` WHERE name=\"Texas Wings\";";
                 //var result = bucket.Query<dynamic>(qq);
                 //MessageBox.Show(result.Metrics.ExecutionTime);
@@ -342,34 +425,38 @@ namespace SzakDolg_SP_2018
                     }
                 }
                 MessageBox.Show(run_Timing.ElapsedMilliseconds.ToString());*/
-                
+
                 //--Dictionary--
                 var dic = new Dictionary<string, dynamic>();
-                
-                    for (int i = 0; i < listNK.Count; i++)
+
+                for (int i = 0; i < listNK.Count; i++)
+                {
+                    //ID növelés
+                    var incr = bucket.Increment("Incrementer", 1);
+                    if (incr.Success)
                     {
-
-                        var incr = bucket.Increment("Incrementer", 1);
-                        if (incr.Success)
-                        {
                         var Content = new
-                                {
-                                    NK = listNK[i],
-                                    Nev = listName[i],
-                                    Email = listEmail[i],
-                                    Varos_id = listPostalID[i]
-                                };
+                        {
+                            NK = listNK[i],
+                            Nev = listName[i],
+                            Email = listEmail[i],
+                            Varos_id = listPostalID[i]
+                        };
                         //string json = JsonConvert.SerializeObject(Content);
-                        dic.Add(incr.Value.ToString(), Content);                    
-                          }                    
+                        dic.Add(incr.Value.ToString(), Content);
                     }
-                    run_Timing.Start();
-                    bucket.Upsert(dic);
-                    run_Timing.Stop();
-                    MessageBox.Show(run_Timing.ElapsedMilliseconds.ToString());
-
-             }
-            catch(CouchbaseResponseException ex)
+                }
+                //Mérés kezdete
+                run_Timing.Start();
+               var result = bucket.Upsert(dic);
+                run_Timing.Stop(); //..Vége
+                
+                log_Query(logpath_couchbase, "INSERT", result.Count, run_Timing.ElapsedMilliseconds);
+                label_CouchBase.Text = "Az INSERT futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + result.Count;
+                //MessageBox.Show(run_Timing.ElapsedMilliseconds.ToString());
+            }
+               
+            catch (CouchbaseResponseException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -378,95 +465,199 @@ namespace SzakDolg_SP_2018
             {
                 MessageBox.Show(ex.Message);
             }
+        }
 
-            //var bc = new BucketConfiguration();
-            //bc.Password = "Patrik";
-            //bc.Username = "admin";
-            //bc.BucketName = "travel-sample";
+        private void button_FlushCouchB_Click(object sender, EventArgs e)
+        {
+             run_Timing.Reset();
+             //figyelmeztetés
+            DialogResult dialogResult = MessageBox.Show("Biztosan törölni szeretné az összes adatot a Bucketből?", "Figyelmeztetés!", MessageBoxButtons.YesNo);
+            // ha igen
+            if (dialogResult == DialogResult.Yes)
+            {
+                try
+                {
+                    var cb = new Cluster(new ClientConfiguration
+                    {
+                        Servers = new List<Uri> { new Uri("https://127.0.0.1:8091/") }
+                    });
+                    cb.Authenticate("admin", "Patrik");
+                    var bucket = cb.OpenBucket("szakd");
+                    //Adatok megszámlálása
+                    string qq = "SELECT COUNT(*) FROM szakd;";
+                    var queryresult = bucket.Query<dynamic>(qq); //Query futtatása
+                    var jObject = Newtonsoft.Json.Linq.JObject.Parse(queryresult.Rows[0].ToString()); //Visszakapott JSON üzenet deserializálása
 
-            //bc.Servers.Clear();
-            //bc.Servers.Add(new Uri("http://127.0.0.1:8091/"));
+                    //Bucket Flush
+                    Couchbase.Management.IBucketManager cc = cb.OpenBucket("szakd").CreateManager("admin", "Patrik");
+                    run_Timing.Start();
+                    IResult flushres = cc.Flush();
+                    run_Timing.Stop();
+                    if (flushres.Success)
+                    {
+                        log_Query(logpath_couchbase, "FLUSH", (int)jObject["$1"], run_Timing.ElapsedMilliseconds);
+                        label_CouchBase.Text = "A Flush futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + (int)jObject["$1"];
+                    }
+
+                }
+                catch (CouchbaseResponseException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void button_SelectCouchB_Click(object sender, EventArgs e)
+        {
+            run_Timing.Reset();
+            try
+            {
+                var cb = new Cluster(new ClientConfiguration
+                {
+                    Servers = new List<Uri> { new Uri("https://127.0.0.1:8091/") }
+                });
+                cb.Authenticate("admin", "Patrik");
+                var bucket = cb.OpenBucket("szakd");
+                //Adatok lekérése
+                string qq = "SELECT * FROM szakd;";
+
+
+                run_Timing.Start();
+                var queryresult = bucket.Query<dynamic>(qq); //Query futtatása
+                run_Timing.Stop();
+                int rows = queryresult.Rows.Count;
+               // var jObject = Newtonsoft.Json.Linq.JObject.Parse(queryresult.Rows[0].Count); //Visszakapott JSON üzenet deserializálása
+
+                if (queryresult.Success)
+                {
+                    log_Query(logpath_couchbase, "SELECT *", rows, run_Timing.ElapsedMilliseconds);
+                    label_CouchBase.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                }
+
+            }
+
+            catch (CouchbaseResponseException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button_RunN1QL_Click(object sender, EventArgs e)
+        {
+            run_Timing.Reset();
+            int rows = -1;
+                try
+                {
+                    var cb = new Cluster(new ClientConfiguration
+                    {
+                        Servers = new List<Uri> { new Uri("https://127.0.0.1:8091/") }
+                    });
+                    cb.Authenticate("admin", "Patrik");
+                    var bucket = cb.OpenBucket("szakd");
+                    //Adatok lekérése
+                    string qq = rTB_N1QL.Text;
+                    for (int i = 0; i < nUD_EgyediN1QL.Value; i++)
+                    {
+                        run_Timing.Start();
+                        var queryresult = bucket.Query<dynamic>(qq); //Query futtatása
+                        run_Timing.Stop();
+                        if (rTB_N1QL.Text.Contains("UDPATE szakd"))
+                        {
+                            rows = (int)queryresult.Metrics.MutationCount;
+                        }
+                        else
+                        {
+                            rows = queryresult.Rows.Count;                           
+                        }
+                        log_Query(logpath_couchbase, "Egyéni: "+rTB_N1QL.Text, rows, run_Timing.ElapsedMilliseconds);
+                        label_CouchBase.Text = "Az egyéni query(k) lefutott(ak).";
+                    }
+                }
+                catch (CouchbaseResponseException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             
         }
-        
+
+        private void button_UpdateCouchB_Click(object sender, EventArgs e)
+        {
+            run_Timing.Reset();
+            try
+            {
+                var cb = new Cluster(new ClientConfiguration
+                {
+                    Servers = new List<Uri> { new Uri("https://127.0.0.1:8091/") }
+                });
+                cb.Authenticate("admin", "Patrik");
+                var bucket = cb.OpenBucket("szakd");
+                //Adatok lekérése
+                string qq = "UPDATE szakd SET email=\"updatelt@gmail.com\" WHERE 1;";
+
+
+                run_Timing.Start();
+                var queryresult = bucket.Query<dynamic>(qq); //Query futtatása
+                run_Timing.Stop();
+                int rows = (int)queryresult.Metrics.MutationCount;
+                // var jObject = Newtonsoft.Json.Linq.JObject.Parse(queryresult.Rows[0].Count); //Visszakapott JSON üzenet deserializálása
+
+                if (queryresult.Success)
+                {
+                    log_Query(logpath_couchbase, "SELECT *", rows, run_Timing.ElapsedMilliseconds);
+                    label_CouchBase.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                }
+
+            }
+
+            catch (CouchbaseResponseException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         #endregion
 
-        private void button_QueryMys_Click(object sender, EventArgs e)
+        private void button_InsertPG_Click(object sender, EventArgs e)
         {
-
-            int rows = 0;
-            run_Timing.Reset();
-            //List<int> rt = new List<int>();
-            //List<long> elms = new List<long>();
             try
             {
-                conn.Open();
-
-                MySqlCommand comm = new MySqlCommand();
-                comm.CommandText = rTB_QueryMys.Text;
-                for (int i = 0; i < nUd_HanyszorMyS.Value; i++)
+                connPG.Open();
+                NpgsqlCommand comm = connPG.CreateCommand();
+                try
                 {
-                    run_Timing.Reset();
-                    rows = runMySQL(comm);
-                    log_Query(logpath_mysql, "Egyedi: " + rTB_QueryMys.Text, rows, run_Timing.ElapsedMilliseconds);
-                    //rt.Add(rows);
-                    //elms.Add(run_Timing.ElapsedMilliseconds);
+                    string sql1 = "INSERT INTO szakdoga.Tanulok VALUES(1,'fing','hugy','kaki','lúd')";
+                    comm.CommandText = sql1;
+                    var res = comm.ExecuteNonQuery();
+                    
                 }
-               
-                label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-                conn.Close();
-                //for (int i = 0; i < nUd_HanyszorMyS.Value; i++)
-                //{
-                //    log_Query(logpath_mysql, "Egyedi: " + rTB_QueryMys.Text, rt[i], elms[i]);
-                //}
-                
+                catch (NpgsqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-            catch (MySqlException ex)
+            catch (NpgsqlException ex)
             {
-                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
+                MessageBox.Show(ex.Message);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
-            }
-        }
-
-        private void button_UpdateMys_Click(object sender, EventArgs e)
-        {
-            int rows = 0;
-            run_Timing.Reset();
-            try
-            {
-                conn.Open();
-
-                MySqlCommand comm = new MySqlCommand();
-                comm.CommandText = "UPDATE Tanulok SET Email='updatelt@gmail.com' WHERE 1";
-
-                rows = runMySQL(comm);
-
-                label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-                conn.Close();
-
-                log_Query(logpath_mysql, "UPDATE", rows, run_Timing.ElapsedMilliseconds);
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
-            }
-            
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                conn.Close();
-            }
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            viu();
         }
 
     }

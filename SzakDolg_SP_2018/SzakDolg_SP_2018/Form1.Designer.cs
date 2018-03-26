@@ -43,15 +43,29 @@
             this.button_LoadDataMys = new System.Windows.Forms.Button();
             this.button_InsertMys = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.button_InsertCouchB = new System.Windows.Forms.Button();
+            this.label_CouchBase = new System.Windows.Forms.Label();
+            this.button_RunN1QL = new System.Windows.Forms.Button();
+            this.nUD_EgyediN1QL = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.rTB_N1QL = new System.Windows.Forms.RichTextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.button_UpdateCouchB = new System.Windows.Forms.Button();
+            this.button_SelectCouchB = new System.Windows.Forms.Button();
+            this.button_FlushCouchB = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.button_Generate = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.nUD_Generate = new System.Windows.Forms.NumericUpDown();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.button_InsertPG = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUd_HanyszorMyS)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediN1QL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_Generate)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,7 +73,7 @@
             // 
             this.label_MySqlConn.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label_MySqlConn.AutoSize = true;
-            this.label_MySqlConn.Location = new System.Drawing.Point(4, 350);
+            this.label_MySqlConn.Location = new System.Drawing.Point(11, 349);
             this.label_MySqlConn.Name = "label_MySqlConn";
             this.label_MySqlConn.Size = new System.Drawing.Size(176, 13);
             this.label_MySqlConn.TabIndex = 1;
@@ -68,15 +82,16 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.79584F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.20416F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 116F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 49);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -99,13 +114,13 @@
             this.panel1.Controls.Add(this.label_MySqlConn);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(330, 376);
+            this.panel1.Size = new System.Drawing.Size(369, 376);
             this.panel1.TabIndex = 3;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 310);
+            this.label4.Location = new System.Drawing.Point(4, 309);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(99, 13);
             this.label4.TabIndex = 12;
@@ -113,7 +128,7 @@
             // 
             // nUd_HanyszorMyS
             // 
-            this.nUd_HanyszorMyS.Location = new System.Drawing.Point(115, 307);
+            this.nUd_HanyszorMyS.Location = new System.Drawing.Point(107, 307);
             this.nUd_HanyszorMyS.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -125,7 +140,7 @@
             0,
             0});
             this.nUd_HanyszorMyS.Name = "nUd_HanyszorMyS";
-            this.nUd_HanyszorMyS.Size = new System.Drawing.Size(78, 20);
+            this.nUd_HanyszorMyS.Size = new System.Drawing.Size(117, 20);
             this.nUd_HanyszorMyS.TabIndex = 9;
             this.nUd_HanyszorMyS.Value = new decimal(new int[] {
             1,
@@ -155,7 +170,7 @@
             // 
             // button_QueryMys
             // 
-            this.button_QueryMys.Location = new System.Drawing.Point(199, 304);
+            this.button_QueryMys.Location = new System.Drawing.Point(238, 304);
             this.button_QueryMys.Name = "button_QueryMys";
             this.button_QueryMys.Size = new System.Drawing.Size(128, 23);
             this.button_QueryMys.TabIndex = 9;
@@ -168,22 +183,22 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(4, 186);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(109, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Egyedi query:";
+            this.label3.Text = "Egyedi MySQL query:";
             // 
             // rTB_QueryMys
             // 
             this.rTB_QueryMys.Location = new System.Drawing.Point(7, 202);
             this.rTB_QueryMys.Name = "rTB_QueryMys";
-            this.rTB_QueryMys.Size = new System.Drawing.Size(321, 96);
+            this.rTB_QueryMys.Size = new System.Drawing.Size(359, 96);
             this.rTB_QueryMys.TabIndex = 7;
             this.rTB_QueryMys.Text = "";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(3, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(131, 13);
             this.label2.TabIndex = 6;
@@ -221,22 +236,156 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.richTextBox1);
-            this.panel2.Controls.Add(this.button1);
-            this.panel2.Location = new System.Drawing.Point(344, 3);
+            this.panel2.Controls.Add(this.button_InsertPG);
+            this.panel2.Location = new System.Drawing.Point(378, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(333, 376);
+            this.panel2.Size = new System.Drawing.Size(368, 376);
             this.panel2.TabIndex = 4;
             // 
-            // button1
+            // panel3
             // 
-            this.button1.Location = new System.Drawing.Point(138, 274);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.panel3.Controls.Add(this.button_InsertCouchB);
+            this.panel3.Controls.Add(this.label_CouchBase);
+            this.panel3.Controls.Add(this.button_RunN1QL);
+            this.panel3.Controls.Add(this.nUD_EgyediN1QL);
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Controls.Add(this.rTB_N1QL);
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.button_UpdateCouchB);
+            this.panel3.Controls.Add(this.button_SelectCouchB);
+            this.panel3.Controls.Add(this.button_FlushCouchB);
+            this.panel3.Controls.Add(this.button2);
+            this.panel3.Location = new System.Drawing.Point(752, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(368, 376);
+            this.panel3.TabIndex = 5;
+            // 
+            // button_InsertCouchB
+            // 
+            this.button_InsertCouchB.Location = new System.Drawing.Point(9, 33);
+            this.button_InsertCouchB.Name = "button_InsertCouchB";
+            this.button_InsertCouchB.Size = new System.Drawing.Size(168, 23);
+            this.button_InsertCouchB.TabIndex = 17;
+            this.button_InsertCouchB.Text = "Adatok feltöltése [INSERT]";
+            this.button_InsertCouchB.UseVisualStyleBackColor = true;
+            this.button_InsertCouchB.Click += new System.EventHandler(this.button_InsertCouchB_Click);
+            // 
+            // label_CouchBase
+            // 
+            this.label_CouchBase.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_CouchBase.AutoSize = true;
+            this.label_CouchBase.Location = new System.Drawing.Point(8, 349);
+            this.label_CouchBase.Name = "label_CouchBase";
+            this.label_CouchBase.Size = new System.Drawing.Size(176, 13);
+            this.label_CouchBase.TabIndex = 16;
+            this.label_CouchBase.Text = "Futtatáshoz nyomj meg egy gombot.";
+            // 
+            // button_RunN1QL
+            // 
+            this.button_RunN1QL.Location = new System.Drawing.Point(255, 304);
+            this.button_RunN1QL.Name = "button_RunN1QL";
+            this.button_RunN1QL.Size = new System.Drawing.Size(110, 23);
+            this.button_RunN1QL.TabIndex = 15;
+            this.button_RunN1QL.Text = "Futtatás";
+            this.button_RunN1QL.UseVisualStyleBackColor = true;
+            this.button_RunN1QL.Click += new System.EventHandler(this.button_RunN1QL_Click);
+            // 
+            // nUD_EgyediN1QL
+            // 
+            this.nUD_EgyediN1QL.Location = new System.Drawing.Point(113, 307);
+            this.nUD_EgyediN1QL.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.nUD_EgyediN1QL.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nUD_EgyediN1QL.Name = "nUD_EgyediN1QL";
+            this.nUD_EgyediN1QL.Size = new System.Drawing.Size(117, 20);
+            this.nUD_EgyediN1QL.TabIndex = 14;
+            this.nUD_EgyediN1QL.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(8, 309);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(99, 13);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "Hányszor fusson le:";
+            // 
+            // rTB_N1QL
+            // 
+            this.rTB_N1QL.Location = new System.Drawing.Point(9, 203);
+            this.rTB_N1QL.Name = "rTB_N1QL";
+            this.rTB_N1QL.Size = new System.Drawing.Size(356, 95);
+            this.rTB_N1QL.TabIndex = 6;
+            this.rTB_N1QL.Text = "";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 186);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(101, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Egyedi N1QL Query";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(4, 4);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(151, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "CouchBase szerver műveletek";
+            // 
+            // button_UpdateCouchB
+            // 
+            this.button_UpdateCouchB.Location = new System.Drawing.Point(9, 148);
+            this.button_UpdateCouchB.Name = "button_UpdateCouchB";
+            this.button_UpdateCouchB.Size = new System.Drawing.Size(168, 23);
+            this.button_UpdateCouchB.TabIndex = 3;
+            this.button_UpdateCouchB.Text = "Azonos email [UPDATE]";
+            this.button_UpdateCouchB.UseVisualStyleBackColor = true;
+            this.button_UpdateCouchB.Click += new System.EventHandler(this.button_UpdateCouchB_Click);
+            // 
+            // button_SelectCouchB
+            // 
+            this.button_SelectCouchB.Location = new System.Drawing.Point(9, 119);
+            this.button_SelectCouchB.Name = "button_SelectCouchB";
+            this.button_SelectCouchB.Size = new System.Drawing.Size(168, 23);
+            this.button_SelectCouchB.TabIndex = 2;
+            this.button_SelectCouchB.Text = "Minden adat lekérés [SELECT *]";
+            this.button_SelectCouchB.UseVisualStyleBackColor = true;
+            this.button_SelectCouchB.Click += new System.EventHandler(this.button_SelectCouchB_Click);
+            // 
+            // button_FlushCouchB
+            // 
+            this.button_FlushCouchB.Location = new System.Drawing.Point(9, 90);
+            this.button_FlushCouchB.Name = "button_FlushCouchB";
+            this.button_FlushCouchB.Size = new System.Drawing.Size(168, 23);
+            this.button_FlushCouchB.TabIndex = 1;
+            this.button_FlushCouchB.Text = "Minden törlése [FLUSH]";
+            this.button_FlushCouchB.UseVisualStyleBackColor = true;
+            this.button_FlushCouchB.Click += new System.EventHandler(this.button_FlushCouchB_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(9, 62);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // button_Generate
             // 
@@ -279,13 +428,15 @@
             0,
             0});
             // 
-            // richTextBox1
+            // button_InsertPG
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(3, 13);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(327, 255);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.button_InsertPG.Location = new System.Drawing.Point(3, 33);
+            this.button_InsertPG.Name = "button_InsertPG";
+            this.button_InsertPG.Size = new System.Drawing.Size(75, 23);
+            this.button_InsertPG.TabIndex = 0;
+            this.button_InsertPG.Text = "button1";
+            this.button_InsertPG.UseVisualStyleBackColor = true;
+            this.button_InsertPG.Click += new System.EventHandler(this.button_InsertPG_Click);
             // 
             // Form1
             // 
@@ -303,6 +454,9 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUd_HanyszorMyS)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediN1QL)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_Generate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -329,8 +483,20 @@
         private System.Windows.Forms.RichTextBox rTB_QueryMys;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nUd_HanyszorMyS;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button_UpdateCouchB;
+        private System.Windows.Forms.Button button_SelectCouchB;
+        private System.Windows.Forms.Button button_FlushCouchB;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label_CouchBase;
+        private System.Windows.Forms.Button button_RunN1QL;
+        private System.Windows.Forms.NumericUpDown nUD_EgyediN1QL;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.RichTextBox rTB_N1QL;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button_InsertCouchB;
+        private System.Windows.Forms.Button button_InsertPG;
     }
 }
 

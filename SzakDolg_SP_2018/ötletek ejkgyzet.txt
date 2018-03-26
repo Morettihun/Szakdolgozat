@@ -35,3 +35,18 @@ Ez a fajta db nem tartalmaz auto incrementet, de megoldható egy létrehozott szar
 Couchbase handles sequence generation by what is known as a “counter” document. Counter is a document that can be incremented or decremented sequentially. An important thing to note here is that the increment or decrement operation of the counter is atomic. When we insert a business entity (such as Product in our case) as a JSON document, we can use the counter document with a key pattern to generate a sequence.
 
 Postal Code legyen a Prim_Key, ne ID legyen.
+
+Flushing Buckets
+When a bucket is flushed, all content is removed. Because this operation is potentially dangerous it is disabled by default for each bucket. Bucket flushing may be useful in test environments where it becomes a simpler alternative to removing and creating a test bucket. You may enable bucket flushing on a per-bucket basis using the Couchbase Web Console or when creating a bucket.
+
+Index létrehozása az NK-ra.
+
+A Flush azért +1 sor, mert az incrementer is törlõdik.
+
+A SELECT *-hoz kell index.
+
+CREATE PRIMARY INDEX ON szakd
+
+Lehet egyediket is:
+CREATE INDEX idx_NK ON szakd(NK);
+CREATE INDEX tanulo_info ON szakd(NK,Nev,Email,Varos_id)
