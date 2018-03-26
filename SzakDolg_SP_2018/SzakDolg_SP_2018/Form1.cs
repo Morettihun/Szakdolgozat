@@ -343,7 +343,7 @@ namespace SzakDolg_SP_2018
                 }
                 MessageBox.Show(run_Timing.ElapsedMilliseconds.ToString());*/
                 
-                /*//--Dictionary--
+                //--Dictionary--
                 var dic = new Dictionary<string, dynamic>();
                 
                     for (int i = 0; i < listNK.Count; i++)
@@ -366,7 +366,7 @@ namespace SzakDolg_SP_2018
                     run_Timing.Start();
                     bucket.Upsert(dic);
                     run_Timing.Stop();
-                    MessageBox.Show(run_Timing.ElapsedMilliseconds.ToString());*/
+                    MessageBox.Show(run_Timing.ElapsedMilliseconds.ToString());
 
              }
             catch(CouchbaseResponseException ex)
