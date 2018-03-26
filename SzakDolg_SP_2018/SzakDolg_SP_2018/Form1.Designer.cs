@@ -30,7 +30,7 @@
         {
             this.label_MySqlConn = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel_MyS = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.nUd_HanyszorMyS = new System.Windows.Forms.NumericUpDown();
             this.button_UpdateMys = new System.Windows.Forms.Button();
@@ -42,8 +42,9 @@
             this.button_DeleteMys = new System.Windows.Forms.Button();
             this.button_LoadDataMys = new System.Windows.Forms.Button();
             this.button_InsertMys = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel_PG = new System.Windows.Forms.Panel();
+            this.button_InsertPG = new System.Windows.Forms.Button();
+            this.panel_CB = new System.Windows.Forms.Panel();
             this.button_InsertCouchB = new System.Windows.Forms.Button();
             this.label_CouchBase = new System.Windows.Forms.Label();
             this.button_RunN1QL = new System.Windows.Forms.Button();
@@ -59,14 +60,24 @@
             this.button_Generate = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.nUD_Generate = new System.Windows.Forms.NumericUpDown();
-            this.button_InsertPG = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.nUD_EgyediPG = new System.Windows.Forms.NumericUpDown();
+            this.button_UpdatePG = new System.Windows.Forms.Button();
+            this.button_SelectPG = new System.Windows.Forms.Button();
+            this.button_EgyediPG = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.rTB_QueryPG = new System.Windows.Forms.RichTextBox();
+            this.button_DeletePG = new System.Windows.Forms.Button();
+            this.button_LoadDataPG = new System.Windows.Forms.Button();
+            this.label_PG = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panel_MyS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUd_HanyszorMyS)).BeginInit();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.panel_PG.SuspendLayout();
+            this.panel_CB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediN1QL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_Generate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediPG)).BeginInit();
             this.SuspendLayout();
             // 
             // label_MySqlConn
@@ -85,9 +96,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel3, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel_MyS, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel_PG, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel_CB, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 49);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -98,24 +109,24 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1125, 442);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
-            // panel1
+            // panel_MyS
             // 
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.nUd_HanyszorMyS);
-            this.panel1.Controls.Add(this.button_UpdateMys);
-            this.panel1.Controls.Add(this.button_SelectMys);
-            this.panel1.Controls.Add(this.button_QueryMys);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.rTB_QueryMys);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.button_DeleteMys);
-            this.panel1.Controls.Add(this.button_LoadDataMys);
-            this.panel1.Controls.Add(this.button_InsertMys);
-            this.panel1.Controls.Add(this.label_MySqlConn);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(369, 376);
-            this.panel1.TabIndex = 3;
+            this.panel_MyS.Controls.Add(this.label4);
+            this.panel_MyS.Controls.Add(this.nUd_HanyszorMyS);
+            this.panel_MyS.Controls.Add(this.button_UpdateMys);
+            this.panel_MyS.Controls.Add(this.button_SelectMys);
+            this.panel_MyS.Controls.Add(this.button_QueryMys);
+            this.panel_MyS.Controls.Add(this.label3);
+            this.panel_MyS.Controls.Add(this.rTB_QueryMys);
+            this.panel_MyS.Controls.Add(this.label2);
+            this.panel_MyS.Controls.Add(this.button_DeleteMys);
+            this.panel_MyS.Controls.Add(this.button_LoadDataMys);
+            this.panel_MyS.Controls.Add(this.button_InsertMys);
+            this.panel_MyS.Controls.Add(this.label_MySqlConn);
+            this.panel_MyS.Location = new System.Drawing.Point(3, 3);
+            this.panel_MyS.Name = "panel_MyS";
+            this.panel_MyS.Size = new System.Drawing.Size(369, 376);
+            this.panel_MyS.TabIndex = 3;
             // 
             // label4
             // 
@@ -234,32 +245,52 @@
             this.button_InsertMys.UseVisualStyleBackColor = true;
             this.button_InsertMys.Click += new System.EventHandler(this.button1_Click);
             // 
-            // panel2
+            // panel_PG
             // 
-            this.panel2.Controls.Add(this.button_InsertPG);
-            this.panel2.Location = new System.Drawing.Point(378, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(368, 376);
-            this.panel2.TabIndex = 4;
+            this.panel_PG.Controls.Add(this.label8);
+            this.panel_PG.Controls.Add(this.nUD_EgyediPG);
+            this.panel_PG.Controls.Add(this.button_UpdatePG);
+            this.panel_PG.Controls.Add(this.button_SelectPG);
+            this.panel_PG.Controls.Add(this.button_EgyediPG);
+            this.panel_PG.Controls.Add(this.label9);
+            this.panel_PG.Controls.Add(this.rTB_QueryPG);
+            this.panel_PG.Controls.Add(this.button_DeletePG);
+            this.panel_PG.Controls.Add(this.button_LoadDataPG);
+            this.panel_PG.Controls.Add(this.label_PG);
+            this.panel_PG.Controls.Add(this.button_InsertPG);
+            this.panel_PG.Location = new System.Drawing.Point(378, 3);
+            this.panel_PG.Name = "panel_PG";
+            this.panel_PG.Size = new System.Drawing.Size(368, 376);
+            this.panel_PG.TabIndex = 4;
             // 
-            // panel3
+            // button_InsertPG
             // 
-            this.panel3.Controls.Add(this.button_InsertCouchB);
-            this.panel3.Controls.Add(this.label_CouchBase);
-            this.panel3.Controls.Add(this.button_RunN1QL);
-            this.panel3.Controls.Add(this.nUD_EgyediN1QL);
-            this.panel3.Controls.Add(this.label7);
-            this.panel3.Controls.Add(this.rTB_N1QL);
-            this.panel3.Controls.Add(this.label6);
-            this.panel3.Controls.Add(this.label5);
-            this.panel3.Controls.Add(this.button_UpdateCouchB);
-            this.panel3.Controls.Add(this.button_SelectCouchB);
-            this.panel3.Controls.Add(this.button_FlushCouchB);
-            this.panel3.Controls.Add(this.button2);
-            this.panel3.Location = new System.Drawing.Point(752, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(368, 376);
-            this.panel3.TabIndex = 5;
+            this.button_InsertPG.Location = new System.Drawing.Point(3, 33);
+            this.button_InsertPG.Name = "button_InsertPG";
+            this.button_InsertPG.Size = new System.Drawing.Size(181, 23);
+            this.button_InsertPG.TabIndex = 0;
+            this.button_InsertPG.Text = "Adatok feltültése [INSERT]";
+            this.button_InsertPG.UseVisualStyleBackColor = true;
+            this.button_InsertPG.Click += new System.EventHandler(this.button_InsertPG_Click);
+            // 
+            // panel_CB
+            // 
+            this.panel_CB.Controls.Add(this.button_InsertCouchB);
+            this.panel_CB.Controls.Add(this.label_CouchBase);
+            this.panel_CB.Controls.Add(this.button_RunN1QL);
+            this.panel_CB.Controls.Add(this.nUD_EgyediN1QL);
+            this.panel_CB.Controls.Add(this.label7);
+            this.panel_CB.Controls.Add(this.rTB_N1QL);
+            this.panel_CB.Controls.Add(this.label6);
+            this.panel_CB.Controls.Add(this.label5);
+            this.panel_CB.Controls.Add(this.button_UpdateCouchB);
+            this.panel_CB.Controls.Add(this.button_SelectCouchB);
+            this.panel_CB.Controls.Add(this.button_FlushCouchB);
+            this.panel_CB.Controls.Add(this.button2);
+            this.panel_CB.Location = new System.Drawing.Point(752, 3);
+            this.panel_CB.Name = "panel_CB";
+            this.panel_CB.Size = new System.Drawing.Size(368, 376);
+            this.panel_CB.TabIndex = 5;
             // 
             // button_InsertCouchB
             // 
@@ -428,15 +459,108 @@
             0,
             0});
             // 
-            // button_InsertPG
+            // label8
             // 
-            this.button_InsertPG.Location = new System.Drawing.Point(3, 33);
-            this.button_InsertPG.Name = "button_InsertPG";
-            this.button_InsertPG.Size = new System.Drawing.Size(75, 23);
-            this.button_InsertPG.TabIndex = 0;
-            this.button_InsertPG.Text = "button1";
-            this.button_InsertPG.UseVisualStyleBackColor = true;
-            this.button_InsertPG.Click += new System.EventHandler(this.button_InsertPG_Click);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1, 309);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 13);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Hányszor fusson le:";
+            // 
+            // nUD_EgyediPG
+            // 
+            this.nUD_EgyediPG.Location = new System.Drawing.Point(104, 307);
+            this.nUD_EgyediPG.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.nUD_EgyediPG.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nUD_EgyediPG.Name = "nUD_EgyediPG";
+            this.nUD_EgyediPG.Size = new System.Drawing.Size(117, 20);
+            this.nUD_EgyediPG.TabIndex = 18;
+            this.nUD_EgyediPG.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // button_UpdatePG
+            // 
+            this.button_UpdatePG.Location = new System.Drawing.Point(4, 150);
+            this.button_UpdatePG.Name = "button_UpdatePG";
+            this.button_UpdatePG.Size = new System.Drawing.Size(180, 23);
+            this.button_UpdatePG.TabIndex = 21;
+            this.button_UpdatePG.Text = "Azonos email [UPDATE]";
+            this.button_UpdatePG.UseVisualStyleBackColor = true;
+            // 
+            // button_SelectPG
+            // 
+            this.button_SelectPG.Location = new System.Drawing.Point(3, 120);
+            this.button_SelectPG.Name = "button_SelectPG";
+            this.button_SelectPG.Size = new System.Drawing.Size(181, 23);
+            this.button_SelectPG.TabIndex = 20;
+            this.button_SelectPG.Text = "Minden adat lekérés [SELECT *]";
+            this.button_SelectPG.UseVisualStyleBackColor = true;
+            // 
+            // button_EgyediPG
+            // 
+            this.button_EgyediPG.Location = new System.Drawing.Point(235, 304);
+            this.button_EgyediPG.Name = "button_EgyediPG";
+            this.button_EgyediPG.Size = new System.Drawing.Size(128, 23);
+            this.button_EgyediPG.TabIndex = 19;
+            this.button_EgyediPG.Text = "Futtatás";
+            this.button_EgyediPG.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(1, 186);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(123, 13);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Egyedi PostGREs query:";
+            // 
+            // rTB_QueryPG
+            // 
+            this.rTB_QueryPG.Location = new System.Drawing.Point(4, 202);
+            this.rTB_QueryPG.Name = "rTB_QueryPG";
+            this.rTB_QueryPG.Size = new System.Drawing.Size(359, 96);
+            this.rTB_QueryPG.TabIndex = 16;
+            this.rTB_QueryPG.Text = "";
+            // 
+            // button_DeletePG
+            // 
+            this.button_DeletePG.Location = new System.Drawing.Point(3, 91);
+            this.button_DeletePG.Name = "button_DeletePG";
+            this.button_DeletePG.Size = new System.Drawing.Size(181, 23);
+            this.button_DeletePG.TabIndex = 15;
+            this.button_DeletePG.Text = "Minden törlése [DELETE]";
+            this.button_DeletePG.UseVisualStyleBackColor = true;
+            // 
+            // button_LoadDataPG
+            // 
+            this.button_LoadDataPG.Location = new System.Drawing.Point(3, 62);
+            this.button_LoadDataPG.Name = "button_LoadDataPG";
+            this.button_LoadDataPG.Size = new System.Drawing.Size(181, 23);
+            this.button_LoadDataPG.TabIndex = 14;
+            this.button_LoadDataPG.Text = "Adatok Feltöltése [LOAD DATA]";
+            this.button_LoadDataPG.UseVisualStyleBackColor = true;
+            // 
+            // label_PG
+            // 
+            this.label_PG.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_PG.AutoSize = true;
+            this.label_PG.Location = new System.Drawing.Point(8, 349);
+            this.label_PG.Name = "label_PG";
+            this.label_PG.Size = new System.Drawing.Size(176, 13);
+            this.label_PG.TabIndex = 13;
+            this.label_PG.Text = "Futtatáshoz nyomj meg egy gombot.";
             // 
             // Form1
             // 
@@ -450,14 +574,16 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panel_MyS.ResumeLayout(false);
+            this.panel_MyS.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUd_HanyszorMyS)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.panel_PG.ResumeLayout(false);
+            this.panel_PG.PerformLayout();
+            this.panel_CB.ResumeLayout(false);
+            this.panel_CB.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediN1QL)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_Generate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediPG)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -467,8 +593,8 @@
 
         private System.Windows.Forms.Label label_MySqlConn;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel_MyS;
+        private System.Windows.Forms.Panel panel_PG;
         private System.Windows.Forms.Button button_DeleteMys;
         private System.Windows.Forms.Button button_LoadDataMys;
         private System.Windows.Forms.Button button_Generate;
@@ -483,7 +609,7 @@
         private System.Windows.Forms.RichTextBox rTB_QueryMys;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nUd_HanyszorMyS;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel_CB;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button_UpdateCouchB;
         private System.Windows.Forms.Button button_SelectCouchB;
@@ -497,6 +623,16 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button_InsertCouchB;
         private System.Windows.Forms.Button button_InsertPG;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown nUD_EgyediPG;
+        private System.Windows.Forms.Button button_UpdatePG;
+        private System.Windows.Forms.Button button_SelectPG;
+        private System.Windows.Forms.Button button_EgyediPG;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.RichTextBox rTB_QueryPG;
+        private System.Windows.Forms.Button button_DeletePG;
+        private System.Windows.Forms.Button button_LoadDataPG;
+        private System.Windows.Forms.Label label_PG;
     }
 }
 

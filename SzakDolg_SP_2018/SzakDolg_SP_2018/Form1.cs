@@ -127,11 +127,11 @@ namespace SzakDolg_SP_2018
                 StreamReader srgen = new StreamReader(generatedpath);               
                 connMyS.Open();
 
-                MySqlCommand comm2 = new MySqlCommand();
+               /* MySqlCommand comm2 = new MySqlCommand();
                 comm2.CommandType = CommandType.Text;
                 comm2.Connection = connMyS;
                 comm2.CommandText = "SET profiling=1;";
-                runMySQL(comm2);
+                runMySQL(comm2);*/
 
                 
 
@@ -638,23 +638,39 @@ namespace SzakDolg_SP_2018
 
         private void button_InsertPG_Click(object sender, EventArgs e)
         {
+            run_Timing.Reset();
             try
             {
+                StreamReader srgen = new StreamReader(generatedpath);
+                int rows = 0;
                 connPG.Open();
-                NpgsqlCommand comm = connPG.CreateCommand();
-                try
+                while (!srgen.EndOfStream)
                 {
-                    string sql1 = "INSERT INTO szakdoga.Tanulok VALUES(1,'fing','hugy','kaki','lúd')";
-                    comm.CommandText = sql1;
-                    var res = comm.ExecuteNonQuery();
-                    
+                    var line = srgen.ReadLine();
+                    var datas = line.Split(';');
+
+                    NpgsqlCommand comm = connPG.CreateCommand();
+                    comm.CommandText = "INSERT INTO szakdoga.\"Tanulok\" (\"NK\",\"Nev\",\"Email\",\"Varos_id\") VALUES (@NK,@Nev,@Email,@Varos_id);";
+                    comm.Parameters.Add(new NpgsqlParameter("@NK",DbType.String)).Value= datas[0];
+                    comm.Parameters.Add(new NpgsqlParameter("@Nev", DbType.String)).Value = datas[1];
+                    comm.Parameters.Add(new NpgsqlParameter("@Email", DbType.String)).Value = datas[2];
+                    comm.Parameters.Add(new NpgsqlParameter("@Varos_id", DbType.Int32)).Value = datas[3];
+
+                    run_Timing.Start();
+                    rows += comm.ExecuteNonQuery();
+                    run_Timing.Stop();
+
+                    label_PG.Text = "A feltöltés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
                 }
-                catch (NpgsqlException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                connMyS.Close();
+                log_Query(logpath_postgresql, "DML_INSERT", rows, run_Timing.ElapsedMilliseconds);
             }
+
             catch (NpgsqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
