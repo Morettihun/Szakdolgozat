@@ -355,7 +355,45 @@ namespace SzakDolg_SP_2018
 
 
         #region PostGRESQL
+        private void button_InsertPG_Click(object sender, EventArgs e)
+        {
+            run_Timing.Reset();
+            try
+            {
+                StreamReader srgen = new StreamReader(generatedpath);
+                int rows = 0;
+                connPG.Open();
+                while (!srgen.EndOfStream)
+                {
+                    var line = srgen.ReadLine();
+                    var datas = line.Split(';');
 
+                    NpgsqlCommand comm = connPG.CreateCommand();
+                    comm.CommandText = "INSERT INTO szakdoga.\"Tanulok\" (\"NK\",\"Nev\",\"Email\",\"Varos_id\") VALUES (@NK,@Nev,@Email,@Varos_id);";
+                    comm.Parameters.Add(new NpgsqlParameter("@NK", DbType.String)).Value = datas[0];
+                    comm.Parameters.Add(new NpgsqlParameter("@Nev", DbType.String)).Value = datas[1];
+                    comm.Parameters.Add(new NpgsqlParameter("@Email", DbType.String)).Value = datas[2];
+                    comm.Parameters.Add(new NpgsqlParameter("@Varos_id", DbType.Int32)).Value = datas[3];
+
+                    run_Timing.Start();
+                    rows += comm.ExecuteNonQuery();
+                    run_Timing.Stop();
+
+                    label_PG.Text = "A feltöltés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                }
+                connMyS.Close();
+                log_Query(logpath_postgresql, "DML_INSERT", rows, run_Timing.ElapsedMilliseconds);
+            }
+
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         #endregion
     
 
@@ -636,45 +674,7 @@ namespace SzakDolg_SP_2018
         }
         #endregion
 
-        private void button_InsertPG_Click(object sender, EventArgs e)
-        {
-            run_Timing.Reset();
-            try
-            {
-                StreamReader srgen = new StreamReader(generatedpath);
-                int rows = 0;
-                connPG.Open();
-                while (!srgen.EndOfStream)
-                {
-                    var line = srgen.ReadLine();
-                    var datas = line.Split(';');
-
-                    NpgsqlCommand comm = connPG.CreateCommand();
-                    comm.CommandText = "INSERT INTO szakdoga.\"Tanulok\" (\"NK\",\"Nev\",\"Email\",\"Varos_id\") VALUES (@NK,@Nev,@Email,@Varos_id);";
-                    comm.Parameters.Add(new NpgsqlParameter("@NK",DbType.String)).Value= datas[0];
-                    comm.Parameters.Add(new NpgsqlParameter("@Nev", DbType.String)).Value = datas[1];
-                    comm.Parameters.Add(new NpgsqlParameter("@Email", DbType.String)).Value = datas[2];
-                    comm.Parameters.Add(new NpgsqlParameter("@Varos_id", DbType.Int32)).Value = datas[3];
-
-                    run_Timing.Start();
-                    rows += comm.ExecuteNonQuery();
-                    run_Timing.Stop();
-
-                    label_PG.Text = "A feltöltés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-                }
-                connMyS.Close();
-                log_Query(logpath_postgresql, "DML_INSERT", rows, run_Timing.ElapsedMilliseconds);
-            }
-
-            catch (NpgsqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        
 
     }
 }
