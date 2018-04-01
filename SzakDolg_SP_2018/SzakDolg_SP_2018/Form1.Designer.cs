@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label_MySqlConn = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel_MyS = new System.Windows.Forms.Panel();
+            this.pictureBox_MyS = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.nUd_HanyszorMyS = new System.Windows.Forms.NumericUpDown();
             this.button_UpdateMys = new System.Windows.Forms.Button();
@@ -75,26 +77,27 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.dGV_CB = new System.Windows.Forms.DataGridView();
-            this.button_MySLog = new System.Windows.Forms.Button();
-            this.button_CBLog = new System.Windows.Forms.Button();
-            this.button_PGLog = new System.Windows.Forms.Button();
-            this.dGV_PG = new System.Windows.Forms.DataGridView();
             this.dGV_MyS = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dGV_PG = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dGV_CB = new System.Windows.Forms.DataGridView();
             this.c_Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.c_Comm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.c_Rows = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.c_runTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button_MySLog = new System.Windows.Forms.Button();
+            this.button_CBLog = new System.Windows.Forms.Button();
+            this.button_PGLog = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel_MyS.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MyS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUd_HanyszorMyS)).BeginInit();
             this.panel_PG.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediPG)).BeginInit();
@@ -105,9 +108,9 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_MyS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).BeginInit();
             this.SuspendLayout();
             // 
             // label_MySqlConn
@@ -145,6 +148,7 @@
             this.panel_MyS.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_MyS.Controls.Add(this.pictureBox_MyS);
             this.panel_MyS.Controls.Add(this.label4);
             this.panel_MyS.Controls.Add(this.nUd_HanyszorMyS);
             this.panel_MyS.Controls.Add(this.button_UpdateMys);
@@ -161,6 +165,16 @@
             this.panel_MyS.Name = "panel_MyS";
             this.panel_MyS.Size = new System.Drawing.Size(363, 378);
             this.panel_MyS.TabIndex = 3;
+            // 
+            // pictureBox_MyS
+            // 
+            this.pictureBox_MyS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_MyS.Location = new System.Drawing.Point(230, 61);
+            this.pictureBox_MyS.Name = "pictureBox_MyS";
+            this.pictureBox_MyS.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox_MyS.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_MyS.TabIndex = 13;
+            this.pictureBox_MyS.TabStop = false;
             // 
             // label4
             // 
@@ -286,7 +300,7 @@
             this.button_LoadDataMys.TabIndex = 4;
             this.button_LoadDataMys.Text = "Adatok Feltöltése [LOAD DATA]";
             this.button_LoadDataMys.UseVisualStyleBackColor = true;
-            this.button_LoadDataMys.Click += new System.EventHandler(this.button3_Click);
+            this.button_LoadDataMys.Click += new System.EventHandler(this.button_MySLoad_Click);
             // 
             // button_InsertMys
             // 
@@ -298,10 +312,13 @@
             this.button_InsertMys.TabIndex = 2;
             this.button_InsertMys.Text = "Adatok feltöltése [INSERT]";
             this.button_InsertMys.UseVisualStyleBackColor = true;
-            this.button_InsertMys.Click += new System.EventHandler(this.button1_Click);
+            this.button_InsertMys.Click += new System.EventHandler(this.button_MySInsert_Click);
             // 
             // panel_PG
             // 
+            this.panel_PG.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel_PG.Controls.Add(this.label10);
             this.panel_PG.Controls.Add(this.label8);
             this.panel_PG.Controls.Add(this.nUD_EgyediPG);
@@ -316,7 +333,7 @@
             this.panel_PG.Controls.Add(this.button_InsertPG);
             this.panel_PG.Location = new System.Drawing.Point(372, 3);
             this.panel_PG.Name = "panel_PG";
-            this.panel_PG.Size = new System.Drawing.Size(363, 376);
+            this.panel_PG.Size = new System.Drawing.Size(363, 378);
             this.panel_PG.TabIndex = 4;
             // 
             // label10
@@ -330,8 +347,10 @@
             // 
             // label8
             // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1, 309);
+            this.label8.Location = new System.Drawing.Point(1, 311);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(99, 13);
             this.label8.TabIndex = 22;
@@ -339,7 +358,9 @@
             // 
             // nUD_EgyediPG
             // 
-            this.nUD_EgyediPG.Location = new System.Drawing.Point(104, 307);
+            this.nUD_EgyediPG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nUD_EgyediPG.Location = new System.Drawing.Point(104, 309);
             this.nUD_EgyediPG.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -361,6 +382,8 @@
             // 
             // button_UpdatePG
             // 
+            this.button_UpdatePG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_UpdatePG.Location = new System.Drawing.Point(4, 150);
             this.button_UpdatePG.Name = "button_UpdatePG";
             this.button_UpdatePG.Size = new System.Drawing.Size(180, 23);
@@ -371,6 +394,8 @@
             // 
             // button_SelectPG
             // 
+            this.button_SelectPG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_SelectPG.Location = new System.Drawing.Point(3, 120);
             this.button_SelectPG.Name = "button_SelectPG";
             this.button_SelectPG.Size = new System.Drawing.Size(181, 23);
@@ -381,7 +406,8 @@
             // 
             // button_EgyediPG
             // 
-            this.button_EgyediPG.Location = new System.Drawing.Point(235, 304);
+            this.button_EgyediPG.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_EgyediPG.Location = new System.Drawing.Point(235, 306);
             this.button_EgyediPG.Name = "button_EgyediPG";
             this.button_EgyediPG.Size = new System.Drawing.Size(128, 23);
             this.button_EgyediPG.TabIndex = 19;
@@ -400,15 +426,20 @@
             // 
             // rTB_QueryPG
             // 
+            this.rTB_QueryPG.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rTB_QueryPG.BackColor = System.Drawing.Color.Snow;
             this.rTB_QueryPG.Location = new System.Drawing.Point(4, 202);
             this.rTB_QueryPG.Name = "rTB_QueryPG";
-            this.rTB_QueryPG.Size = new System.Drawing.Size(359, 96);
+            this.rTB_QueryPG.Size = new System.Drawing.Size(359, 98);
             this.rTB_QueryPG.TabIndex = 16;
             this.rTB_QueryPG.Text = "";
             // 
             // button_DeletePG
             // 
+            this.button_DeletePG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_DeletePG.Location = new System.Drawing.Point(3, 91);
             this.button_DeletePG.Name = "button_DeletePG";
             this.button_DeletePG.Size = new System.Drawing.Size(181, 23);
@@ -419,6 +450,8 @@
             // 
             // button_LoadDataPG
             // 
+            this.button_LoadDataPG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_LoadDataPG.Location = new System.Drawing.Point(3, 62);
             this.button_LoadDataPG.Name = "button_LoadDataPG";
             this.button_LoadDataPG.Size = new System.Drawing.Size(181, 23);
@@ -428,9 +461,10 @@
             // 
             // label_PG
             // 
-            this.label_PG.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_PG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label_PG.AutoSize = true;
-            this.label_PG.Location = new System.Drawing.Point(5, 349);
+            this.label_PG.Location = new System.Drawing.Point(5, 351);
             this.label_PG.Name = "label_PG";
             this.label_PG.Size = new System.Drawing.Size(176, 13);
             this.label_PG.TabIndex = 13;
@@ -438,6 +472,8 @@
             // 
             // button_InsertPG
             // 
+            this.button_InsertPG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_InsertPG.Location = new System.Drawing.Point(3, 33);
             this.button_InsertPG.Name = "button_InsertPG";
             this.button_InsertPG.Size = new System.Drawing.Size(181, 23);
@@ -448,6 +484,9 @@
             // 
             // panel_CB
             // 
+            this.panel_CB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel_CB.Controls.Add(this.button_InsertCouchB);
             this.panel_CB.Controls.Add(this.label_CouchBase);
             this.panel_CB.Controls.Add(this.button_RunN1QL);
@@ -462,14 +501,16 @@
             this.panel_CB.Controls.Add(this.button2);
             this.panel_CB.Location = new System.Drawing.Point(741, 3);
             this.panel_CB.Name = "panel_CB";
-            this.panel_CB.Size = new System.Drawing.Size(359, 376);
+            this.panel_CB.Size = new System.Drawing.Size(364, 378);
             this.panel_CB.TabIndex = 5;
             // 
             // button_InsertCouchB
             // 
+            this.button_InsertCouchB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_InsertCouchB.Location = new System.Drawing.Point(9, 33);
             this.button_InsertCouchB.Name = "button_InsertCouchB";
-            this.button_InsertCouchB.Size = new System.Drawing.Size(168, 23);
+            this.button_InsertCouchB.Size = new System.Drawing.Size(173, 23);
             this.button_InsertCouchB.TabIndex = 17;
             this.button_InsertCouchB.Text = "Adatok feltöltése [INSERT]";
             this.button_InsertCouchB.UseVisualStyleBackColor = true;
@@ -477,9 +518,10 @@
             // 
             // label_CouchBase
             // 
-            this.label_CouchBase.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_CouchBase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label_CouchBase.AutoSize = true;
-            this.label_CouchBase.Location = new System.Drawing.Point(3, 349);
+            this.label_CouchBase.Location = new System.Drawing.Point(3, 351);
             this.label_CouchBase.Name = "label_CouchBase";
             this.label_CouchBase.Size = new System.Drawing.Size(176, 13);
             this.label_CouchBase.TabIndex = 16;
@@ -487,7 +529,8 @@
             // 
             // button_RunN1QL
             // 
-            this.button_RunN1QL.Location = new System.Drawing.Point(245, 304);
+            this.button_RunN1QL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_RunN1QL.Location = new System.Drawing.Point(250, 306);
             this.button_RunN1QL.Name = "button_RunN1QL";
             this.button_RunN1QL.Size = new System.Drawing.Size(110, 23);
             this.button_RunN1QL.TabIndex = 15;
@@ -497,7 +540,9 @@
             // 
             // nUD_EgyediN1QL
             // 
-            this.nUD_EgyediN1QL.Location = new System.Drawing.Point(113, 307);
+            this.nUD_EgyediN1QL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nUD_EgyediN1QL.Location = new System.Drawing.Point(113, 309);
             this.nUD_EgyediN1QL.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -509,7 +554,7 @@
             0,
             0});
             this.nUD_EgyediN1QL.Name = "nUD_EgyediN1QL";
-            this.nUD_EgyediN1QL.Size = new System.Drawing.Size(117, 20);
+            this.nUD_EgyediN1QL.Size = new System.Drawing.Size(122, 20);
             this.nUD_EgyediN1QL.TabIndex = 14;
             this.nUD_EgyediN1QL.Value = new decimal(new int[] {
             1,
@@ -519,8 +564,10 @@
             // 
             // label7
             // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 309);
+            this.label7.Location = new System.Drawing.Point(8, 311);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(99, 13);
             this.label7.TabIndex = 13;
@@ -528,10 +575,13 @@
             // 
             // rTB_N1QL
             // 
+            this.rTB_N1QL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rTB_N1QL.BackColor = System.Drawing.Color.Snow;
             this.rTB_N1QL.Location = new System.Drawing.Point(9, 203);
             this.rTB_N1QL.Name = "rTB_N1QL";
-            this.rTB_N1QL.Size = new System.Drawing.Size(344, 95);
+            this.rTB_N1QL.Size = new System.Drawing.Size(349, 97);
             this.rTB_N1QL.TabIndex = 6;
             this.rTB_N1QL.Text = "";
             // 
@@ -555,9 +605,11 @@
             // 
             // button_UpdateCouchB
             // 
+            this.button_UpdateCouchB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_UpdateCouchB.Location = new System.Drawing.Point(9, 148);
             this.button_UpdateCouchB.Name = "button_UpdateCouchB";
-            this.button_UpdateCouchB.Size = new System.Drawing.Size(168, 23);
+            this.button_UpdateCouchB.Size = new System.Drawing.Size(173, 23);
             this.button_UpdateCouchB.TabIndex = 3;
             this.button_UpdateCouchB.Text = "Azonos email [UPDATE]";
             this.button_UpdateCouchB.UseVisualStyleBackColor = true;
@@ -565,9 +617,11 @@
             // 
             // button_SelectCouchB
             // 
+            this.button_SelectCouchB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_SelectCouchB.Location = new System.Drawing.Point(9, 119);
             this.button_SelectCouchB.Name = "button_SelectCouchB";
-            this.button_SelectCouchB.Size = new System.Drawing.Size(168, 23);
+            this.button_SelectCouchB.Size = new System.Drawing.Size(173, 23);
             this.button_SelectCouchB.TabIndex = 2;
             this.button_SelectCouchB.Text = "Minden adat lekérés [SELECT *]";
             this.button_SelectCouchB.UseVisualStyleBackColor = true;
@@ -575,9 +629,11 @@
             // 
             // button_FlushCouchB
             // 
+            this.button_FlushCouchB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_FlushCouchB.Location = new System.Drawing.Point(9, 90);
             this.button_FlushCouchB.Name = "button_FlushCouchB";
-            this.button_FlushCouchB.Size = new System.Drawing.Size(168, 23);
+            this.button_FlushCouchB.Size = new System.Drawing.Size(173, 23);
             this.button_FlushCouchB.TabIndex = 1;
             this.button_FlushCouchB.Text = "Minden törlése [FLUSH]";
             this.button_FlushCouchB.UseVisualStyleBackColor = true;
@@ -585,9 +641,11 @@
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Location = new System.Drawing.Point(9, 62);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(80, 23);
             this.button2.TabIndex = 0;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -694,86 +752,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1104, 441);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
-            // dGV_CB
-            // 
-            this.dGV_CB.AllowUserToAddRows = false;
-            this.dGV_CB.AllowUserToDeleteRows = false;
-            this.dGV_CB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dGV_CB.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dGV_CB.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.c_Time,
-            this.c_Comm,
-            this.c_Rows,
-            this.c_runTime});
-            this.dGV_CB.Location = new System.Drawing.Point(737, 33);
-            this.dGV_CB.Name = "dGV_CB";
-            this.dGV_CB.ReadOnly = true;
-            this.dGV_CB.RowHeadersVisible = false;
-            this.dGV_CB.Size = new System.Drawing.Size(364, 405);
-            this.dGV_CB.TabIndex = 6;
-            // 
-            // button_MySLog
-            // 
-            this.button_MySLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_MySLog.BackColor = System.Drawing.Color.Transparent;
-            this.button_MySLog.Location = new System.Drawing.Point(3, 3);
-            this.button_MySLog.Name = "button_MySLog";
-            this.button_MySLog.Size = new System.Drawing.Size(361, 24);
-            this.button_MySLog.TabIndex = 0;
-            this.button_MySLog.Text = "MySQL Log betöltése";
-            this.button_MySLog.UseVisualStyleBackColor = false;
-            this.button_MySLog.Click += new System.EventHandler(this.button_MySLog_Click);
-            // 
-            // button_CBLog
-            // 
-            this.button_CBLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_CBLog.Location = new System.Drawing.Point(737, 3);
-            this.button_CBLog.Name = "button_CBLog";
-            this.button_CBLog.Size = new System.Drawing.Size(364, 24);
-            this.button_CBLog.TabIndex = 1;
-            this.button_CBLog.Text = "Couchbase Log betöltése";
-            this.button_CBLog.UseVisualStyleBackColor = true;
-            this.button_CBLog.Click += new System.EventHandler(this.button_CBLog_Click);
-            // 
-            // button_PGLog
-            // 
-            this.button_PGLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_PGLog.Location = new System.Drawing.Point(370, 3);
-            this.button_PGLog.Name = "button_PGLog";
-            this.button_PGLog.Size = new System.Drawing.Size(361, 24);
-            this.button_PGLog.TabIndex = 2;
-            this.button_PGLog.Text = "PostGRE Log betöltése";
-            this.button_PGLog.UseVisualStyleBackColor = true;
-            this.button_PGLog.Click += new System.EventHandler(this.button_PGLog_Click);
-            // 
-            // dGV_PG
-            // 
-            this.dGV_PG.AllowUserToAddRows = false;
-            this.dGV_PG.AllowUserToDeleteRows = false;
-            this.dGV_PG.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dGV_PG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dGV_PG.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4});
-            this.dGV_PG.Location = new System.Drawing.Point(370, 33);
-            this.dGV_PG.Name = "dGV_PG";
-            this.dGV_PG.ReadOnly = true;
-            this.dGV_PG.RowHeadersVisible = false;
-            this.dGV_PG.Size = new System.Drawing.Size(361, 405);
-            this.dGV_PG.TabIndex = 7;
-            // 
             // dGV_MyS
             // 
             this.dGV_MyS.AllowUserToAddRows = false;
@@ -825,6 +803,26 @@
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             // 
+            // dGV_PG
+            // 
+            this.dGV_PG.AllowUserToAddRows = false;
+            this.dGV_PG.AllowUserToDeleteRows = false;
+            this.dGV_PG.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dGV_PG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dGV_PG.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4});
+            this.dGV_PG.Location = new System.Drawing.Point(370, 33);
+            this.dGV_PG.Name = "dGV_PG";
+            this.dGV_PG.ReadOnly = true;
+            this.dGV_PG.RowHeadersVisible = false;
+            this.dGV_PG.Size = new System.Drawing.Size(361, 405);
+            this.dGV_PG.TabIndex = 7;
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -855,6 +853,26 @@
             this.dataGridViewTextBoxColumn4.HeaderText = "Futási idő";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dGV_CB
+            // 
+            this.dGV_CB.AllowUserToAddRows = false;
+            this.dGV_CB.AllowUserToDeleteRows = false;
+            this.dGV_CB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dGV_CB.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dGV_CB.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.c_Time,
+            this.c_Comm,
+            this.c_Rows,
+            this.c_runTime});
+            this.dGV_CB.Location = new System.Drawing.Point(737, 33);
+            this.dGV_CB.Name = "dGV_CB";
+            this.dGV_CB.ReadOnly = true;
+            this.dGV_CB.RowHeadersVisible = false;
+            this.dGV_CB.Size = new System.Drawing.Size(364, 405);
+            this.dGV_CB.TabIndex = 6;
             // 
             // c_Time
             // 
@@ -887,6 +905,46 @@
             this.c_runTime.Name = "c_runTime";
             this.c_runTime.ReadOnly = true;
             // 
+            // button_MySLog
+            // 
+            this.button_MySLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_MySLog.BackColor = System.Drawing.Color.Transparent;
+            this.button_MySLog.Location = new System.Drawing.Point(3, 3);
+            this.button_MySLog.Name = "button_MySLog";
+            this.button_MySLog.Size = new System.Drawing.Size(361, 24);
+            this.button_MySLog.TabIndex = 0;
+            this.button_MySLog.Text = "MySQL Log betöltése";
+            this.button_MySLog.UseVisualStyleBackColor = false;
+            this.button_MySLog.Click += new System.EventHandler(this.button_MySLog_Click);
+            // 
+            // button_CBLog
+            // 
+            this.button_CBLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_CBLog.Location = new System.Drawing.Point(737, 3);
+            this.button_CBLog.Name = "button_CBLog";
+            this.button_CBLog.Size = new System.Drawing.Size(364, 24);
+            this.button_CBLog.TabIndex = 1;
+            this.button_CBLog.Text = "Couchbase Log betöltése";
+            this.button_CBLog.UseVisualStyleBackColor = true;
+            this.button_CBLog.Click += new System.EventHandler(this.button_CBLog_Click);
+            // 
+            // button_PGLog
+            // 
+            this.button_PGLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_PGLog.Location = new System.Drawing.Point(370, 3);
+            this.button_PGLog.Name = "button_PGLog";
+            this.button_PGLog.Size = new System.Drawing.Size(361, 24);
+            this.button_PGLog.TabIndex = 2;
+            this.button_PGLog.Text = "PostGRE Log betöltése";
+            this.button_PGLog.UseVisualStyleBackColor = true;
+            this.button_PGLog.Click += new System.EventHandler(this.button_PGLog_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -894,11 +952,13 @@
             this.BackColor = System.Drawing.Color.Firebrick;
             this.ClientSize = new System.Drawing.Size(1149, 503);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Szakdolgozat_Sarlósi Patrik";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel_MyS.ResumeLayout(false);
             this.panel_MyS.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MyS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUd_HanyszorMyS)).EndInit();
             this.panel_PG.ResumeLayout(false);
             this.panel_PG.PerformLayout();
@@ -912,9 +972,9 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_MyS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -986,6 +1046,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn c_Comm;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_Rows;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_runTime;
+        private System.Windows.Forms.PictureBox pictureBox_MyS;
     }
 }
 

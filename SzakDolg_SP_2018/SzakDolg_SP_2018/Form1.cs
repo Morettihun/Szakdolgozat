@@ -16,6 +16,7 @@ using Couchbase;
 using Couchbase.Configuration.Client;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System.Threading;
 namespace SzakDolg_SP_2018
 {
     public partial class Form1 : Form
@@ -35,12 +36,18 @@ namespace SzakDolg_SP_2018
         string logpath_postgresql = @"log\postgresql_log.csv";
         string logpath_couchbase = @"log\couchbase_log.csv";
         Stopwatch run_Timing = new Stopwatch();
+        int rows = 0;
+
+        private BackgroundWorker bgwork_MyS;
+        private BackgroundWorker bgwork_PG;
+        private BackgroundWorker bgwork_CB;
         public Form1()
         {
             InitializeComponent();
-
         }
 
+
+        #region basis
         //Logba írás
         private void log_Query(string source, string querytype, int rows, long el_time)
         {
@@ -48,19 +55,7 @@ namespace SzakDolg_SP_2018
             File.AppendAllText(source, newLine, Encoding.UTF8);
         }
 
-        public int runMySQL(MySqlCommand cmd)
-        {
-            int rows = 0;
-            
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = connMyS;
-            
-            run_Timing.Start();
-            rows += cmd.ExecuteNonQuery();
-            
-            run_Timing.Stop();
-            return rows;
-        }
+       
 
         //Adatok generálása random
         private void button_Generate_Click(object sender, EventArgs e)
@@ -115,25 +110,41 @@ namespace SzakDolg_SP_2018
             }
 
         }
+        #endregion
 
         #region MySQL
-        //Random adatok feltöltése
-        private void button1_Click(object sender, EventArgs e)
+       // public int runMySQL(MySqlCommand cmd)
+        private void runMySQL(MySqlCommand cmd)
         {
-            int rows = 0;
+            //rows = 0;
+
+
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = connMyS;
+
+            run_Timing.Start();
+            rows += cmd.ExecuteNonQuery();
+
+            run_Timing.Stop();
+            //return rows;
+        }
+        void bgwork_MyS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+            pictureBox_MyS.Image = null;
+        }
+
+        void bgwork_MySInsert_DoWork(object sender, DoWorkEventArgs e)
+        {
+           rows = 0;
+
+            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
             run_Timing.Reset();
             try
             {
-                StreamReader srgen = new StreamReader(generatedpath);               
+                StreamReader srgen = new StreamReader(generatedpath);
                 connMyS.Open();
 
-               /* MySqlCommand comm2 = new MySqlCommand();
-                comm2.CommandType = CommandType.Text;
-                comm2.Connection = connMyS;
-                comm2.CommandText = "SET profiling=1;";
-                runMySQL(comm2);*/
-
-                
 
                 while (!srgen.EndOfStream)
                 {
@@ -147,76 +158,87 @@ namespace SzakDolg_SP_2018
                     comm.Parameters.Add(new MySqlParameter("@Email", MySqlDbType.VarChar)).Value = datas[2];
                     comm.Parameters.Add(new MySqlParameter("@Varos_id", MySqlDbType.Int32)).Value = datas[3];
 
-                    rows = runMySQL(comm);
-
-                    //comm2.CommandText = "SHOW PROFILE;";
-
-                    //MySqlDataReader dr = comm2.ExecuteReader();
-
-
-                   // while (dr.Read())
-                    //{
-                    //    richTextBox1.Text += dr[0].ToString() + "-" + dr[1].ToString() + Environment.NewLine;
-                        //MessageBox.Show(dr[0].ToString());
-                   // }
-                  
-                    
-
-
-                    label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: "+rows;                   
+                    //rows += runMySQL(comm);
+                    runMySQL(comm);
                 }
-                connMyS.Close();
+
                 log_Query(logpath_mysql, "DML_INSERT", rows, run_Timing.ElapsedMilliseconds);
             }
-            catch(MySqlException ex)
+            catch (MySqlException ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                connMyS.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");                
+            }
+            finally
+            {
                 connMyS.Close();
             }
         }
 
-        
-
-        private void button3_Click(object sender, EventArgs e)
+        //Random adatok feltöltése
+        private void button_MySInsert_Click(object sender, EventArgs e)
         {
-            int rows = 0;
+            bgwork_MyS = new BackgroundWorker();
+            bgwork_MyS.WorkerSupportsCancellation = false;
+            bgwork_MyS.DoWork += bgwork_MySInsert_DoWork;
+            bgwork_MyS.RunWorkerCompleted += bgwork_MyS_RunWorkerCompleted;
+            bgwork_MyS.RunWorkerAsync();
+            
+        }
+
+        //Load Data-val feltöltés
+        void bgwork_MySLoad_DoWork(object sender, DoWorkEventArgs e)
+        {
+            rows = 0;
+
+            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
             run_Timing.Reset();
             try
             {
                 connMyS.Open();
 
-                    MySqlCommand comm = new MySqlCommand();
-                    comm.CommandText = @"LOAD DATA INFILE 'generatedstudents.csv' INTO TABLE tanulok columns TERMINATED BY ';' LINES TERMINATED BY '" + Environment.NewLine + "' (NK,Nev,Email,Varos_id) SET ID=NULL;";
+                MySqlCommand comm = new MySqlCommand();
+                comm.CommandText = @"LOAD DATA INFILE 'generatedstudents.csv' INTO TABLE tanulok columns TERMINATED BY ';' LINES TERMINATED BY '" + Environment.NewLine + "' (NK,Nev,Email,Varos_id) SET ID=NULL;";
 
-                    rows = runMySQL(comm);
+                //rows = runMySQL(comm);
+                runMySQL(comm);
 
-                    label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;               
-
-                connMyS.Close();
                 log_Query(logpath_mysql, "LOAD_DATA", rows, run_Timing.ElapsedMilliseconds);
             }
             catch (MySqlException ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                connMyS.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");                
+            }
+            finally
+            {
                 connMyS.Close();
             }
         }
 
-        private void button_DeleteMys_Click(object sender, EventArgs e)
+        //Load Data-val feltöltés
+        private void button_MySLoad_Click(object sender, EventArgs e)
         {
-            int rows = 0;
+            bgwork_MyS = new BackgroundWorker();
+            bgwork_MyS.WorkerSupportsCancellation = false;
+            bgwork_MyS.DoWork += bgwork_MySLoad_DoWork;
+            bgwork_MyS.RunWorkerCompleted += bgwork_MyS_RunWorkerCompleted;
+            bgwork_MyS.RunWorkerAsync();
+        }
+
+        //Adatok törlése
+        void bgwork_MySDelete_DoWork(object sender, DoWorkEventArgs e)
+        {
+            rows = 0;
             run_Timing.Reset();
-             //figyelmeztetés
+            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            //figyelmeztetés
             DialogResult dialogResult = MessageBox.Show("Biztosan törölni szeretné az összes adatot az adatbázisból?", "Figyelmeztetés!", MessageBoxButtons.YesNo);
             // ha igen
             if (dialogResult == DialogResult.Yes)
@@ -227,63 +249,85 @@ namespace SzakDolg_SP_2018
                     MySqlCommand comm = new MySqlCommand();
                     comm.CommandText = "DELETE FROM tanulok WHERE 1;";
 
-                    rows = runMySQL(comm);
+                   // rows = runMySQL(comm);
+                    runMySQL(comm);
+                    
+                    //label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
-                    connMyS.Close();
-                    label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-
-                    log_Query(logpath_mysql, "DELETE", rows, run_Timing.ElapsedMilliseconds);                   
+                    log_Query(logpath_mysql, "DELETE", rows, run_Timing.ElapsedMilliseconds);
                 }
                 catch (MySqlException ex)
                 {
                     MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                    connMyS.Close();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+                }
+                finally
+                {
                     connMyS.Close();
                 }
             }
-
-
         }
 
-
-        private void button_SelectMys_Click(object sender, EventArgs e)
+        private void button_DeleteMys_Click(object sender, EventArgs e)
         {
-            int rows = 0;
+            bgwork_MyS = new BackgroundWorker();
+            bgwork_MyS.WorkerSupportsCancellation = false;
+            bgwork_MyS.DoWork += bgwork_MySDelete_DoWork;
+            bgwork_MyS.RunWorkerCompleted += bgwork_MyS_RunWorkerCompleted;
+            bgwork_MyS.RunWorkerAsync();
+        }
+
+        //Select * futtatása
+        void bgwork_MySSelect_DoWork(object sender, DoWorkEventArgs e)
+        {
+            rows = 0;
             run_Timing.Reset();
+            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
             try
             {
                 connMyS.Open();
                 MySqlCommand comm = new MySqlCommand();
                 comm.CommandText = "SELECT * FROM Tanulok;";
 
-                rows = runMySQL(comm);
+                // rows = runMySQL(comm);
+                runMySQL(comm);
 
-                connMyS.Close();
-                label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                //label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
                 log_Query(logpath_mysql, "SELECT *", rows, run_Timing.ElapsedMilliseconds);
             }
             catch (MySqlException ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                connMyS.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+            }
+            finally
+            {
                 connMyS.Close();
             }
         }
 
-        private void button_QueryMys_Click(object sender, EventArgs e)
+        private void button_SelectMys_Click(object sender, EventArgs e)
         {
+            bgwork_MyS = new BackgroundWorker();
+            bgwork_MyS.WorkerSupportsCancellation = false;
+            bgwork_MyS.DoWork += bgwork_MySSelect_DoWork;
+            bgwork_MyS.RunWorkerCompleted += bgwork_MyS_RunWorkerCompleted;
+            bgwork_MyS.RunWorkerAsync();
+        }
 
-            int rows = 0;
+        //Egyedi Query
+        void bgwork_MySQuery_DoWork(object sender, DoWorkEventArgs e)
+        {
+            rows = 0;
             run_Timing.Reset();
+            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
             //List<int> rt = new List<int>();
             //List<long> elms = new List<long>();
             try
@@ -295,36 +339,46 @@ namespace SzakDolg_SP_2018
                 for (int i = 0; i < nUd_HanyszorMyS.Value; i++)
                 {
                     run_Timing.Reset();
-                    rows = runMySQL(comm);
+                    rows = 0;
+                    // rows = runMySQL(comm);
+                    runMySQL(comm);
                     log_Query(logpath_mysql, "Egyedi: " + rTB_QueryMys.Text, rows, run_Timing.ElapsedMilliseconds);
-                    //rt.Add(rows);
-                    //elms.Add(run_Timing.ElapsedMilliseconds);
+
                 }
 
-                label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-                connMyS.Close();
-                //for (int i = 0; i < nUd_HanyszorMyS.Value; i++)
-                //{
-                //    log_Query(logpath_mysql, "Egyedi: " + rTB_QueryMys.Text, rt[i], elms[i]);
-                //}
+               // label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
             }
             catch (MySqlException ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                connMyS.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+            }
+            finally
+            {
                 connMyS.Close();
             }
         }
 
-        private void button_UpdateMys_Click(object sender, EventArgs e)
+        //Egyedi query
+        private void button_QueryMys_Click(object sender, EventArgs e)
         {
-            int rows = 0;
+            bgwork_MyS = new BackgroundWorker();
+            bgwork_MyS.WorkerSupportsCancellation = false;
+            bgwork_MyS.DoWork += bgwork_MySQuery_DoWork;
+            bgwork_MyS.RunWorkerCompleted += bgwork_MyS_RunWorkerCompleted;
+            bgwork_MyS.RunWorkerAsync();
+            
+        }
+        //Adatok frissítése
+        void bgwork_MySUpdate_DoWork(object sender, DoWorkEventArgs e)
+        {
+            rows = 0;
             run_Timing.Reset();
+            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
             try
             {
                 connMyS.Open();
@@ -332,24 +386,33 @@ namespace SzakDolg_SP_2018
                 MySqlCommand comm = new MySqlCommand();
                 comm.CommandText = "UPDATE Tanulok SET Email='updatelt@gmail.com' WHERE 1";
 
-                rows = runMySQL(comm);
-
-                label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-                connMyS.Close();
+                // rows = runMySQL(comm);
+                runMySQL(comm);
+                //label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
                 log_Query(logpath_mysql, "UPDATE", rows, run_Timing.ElapsedMilliseconds);
             }
             catch (MySqlException ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                connMyS.Close();
             }
 
             catch (Exception ex)
             {
                 MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+            }
+            finally
+            {
                 connMyS.Close();
             }
+        }
+        private void button_UpdateMys_Click(object sender, EventArgs e)
+        {
+            bgwork_MyS = new BackgroundWorker();
+            bgwork_MyS.WorkerSupportsCancellation = false;
+            bgwork_MyS.DoWork += bgwork_MySUpdate_DoWork;
+            bgwork_MyS.RunWorkerCompleted += bgwork_MyS_RunWorkerCompleted;
+            bgwork_MyS.RunWorkerAsync();
         }
 #endregion
 

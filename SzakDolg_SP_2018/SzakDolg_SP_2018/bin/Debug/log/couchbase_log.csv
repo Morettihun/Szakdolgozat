@@ -13,3 +13,5 @@ Time;Command;AffectedRows;ElapsedTime
 2018.03.26_23:42:04;Egyéni: SELECT nk FROM szakd WHERE name LIKE "Tihamér *";0;5819
 2018.03.26_23:43:11;Egyéni: SELECT nk FROM szakd WHERE name LIKE "Tihamér%";0;5844
 2018.03.26_23:43:31;Egyéni: SELECT nk FROM szakd WHERE nev like "Tihamér%";59;6138
+2018.04.01_15:18:02;INSERT;100000;25028
+2018.04.01_18:09:45;INSERT;100000;16052
