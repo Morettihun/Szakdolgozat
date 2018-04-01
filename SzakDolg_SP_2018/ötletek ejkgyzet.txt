@@ -50,3 +50,5 @@ CREATE PRIMARY INDEX ON szakd
 Lehet egyediket is:
 CREATE INDEX idx_NK ON szakd(NK);
 CREATE INDEX tanulo_info ON szakd(NK,Nev,Email,Varos_id)
+
+BGworker egyedi query a richtextból nem ehet elérni. Ki kell menteni stringbe áés utána.

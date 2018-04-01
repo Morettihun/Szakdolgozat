@@ -726,28 +726,45 @@ namespace SzakDolg_SP_2018
     
 
         #region CouchBase
-        private void button_InsertCouchB_Click(object sender, EventArgs e)
+        void bgwork_CB_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            label_CouchBase.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rowsCB;
+            pictureBox_CB.Image = null;
+        }
+        void bgwork_InsertCouchB_DoWork(object sender, DoWorkEventArgs e)
         {
             run_Timing.Reset();
+            rowsCB = 0;
+
+            try
+            {
+                pictureBox_CB.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
+
             //Adatok beolvasása
             List<string> listNK = new List<string>();
             List<string> listName = new List<string>();
             List<string> listEmail = new List<string>();
             List<string> listPostalID = new List<string>();
-            using (var reader = new StreamReader(@"datas\generatedstudents.csv"))
+            try
             {
-
-                while (!reader.EndOfStream)
+                using (var reader = new StreamReader(@"datas\generatedstudents.csv"))
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(';');
 
-                    listNK.Add(values[0]);
-                    listName.Add(values[1]);
-                    listEmail.Add(values[2]);
-                    listPostalID.Add(values[3]);
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        var values = line.Split(';');
+
+                        listNK.Add(values[0]);
+                        listName.Add(values[1]);
+                        listEmail.Add(values[2]);
+                        listPostalID.Add(values[3]);
+                    }
                 }
             }
+            catch { }
             //Kapcsolódás
             try
             {
@@ -814,14 +831,15 @@ namespace SzakDolg_SP_2018
                 }
                 //Mérés kezdete
                 run_Timing.Start();
-               var result = bucket.Upsert(dic);
-                run_Timing.Stop(); //..Vége
+                var result = bucket.Upsert(dic);
                 
-                log_Query(logpath_couchbase, "INSERT", result.Count, run_Timing.ElapsedMilliseconds);
-                label_CouchBase.Text = "Az INSERT futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + result.Count;
+                run_Timing.Stop(); //..Vége
+                rowsCB = result.Count;
+                log_Query(logpath_couchbase, "INSERT", rowsCB, run_Timing.ElapsedMilliseconds);
+                //label_CouchBase.Text = "Az INSERT futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + result.Count;
                 //MessageBox.Show(run_Timing.ElapsedMilliseconds.ToString());
             }
-               
+
             catch (CouchbaseResponseException ex)
             {
                 MessageBox.Show(ex.Message);
@@ -832,15 +850,30 @@ namespace SzakDolg_SP_2018
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private void button_FlushCouchB_Click(object sender, EventArgs e)
+        private void button_InsertCouchB_Click(object sender, EventArgs e)
         {
-             run_Timing.Reset();
-             //figyelmeztetés
+            bgwork_CB = new BackgroundWorker();
+            bgwork_CB.WorkerSupportsCancellation = false;
+            bgwork_CB.DoWork += bgwork_InsertCouchB_DoWork;
+            bgwork_CB.RunWorkerCompleted += bgwork_CB_RunWorkerCompleted;
+            bgwork_CB.RunWorkerAsync();
+        }
+
+        //Adatok törlése
+        void bgwork_FlushCouchB_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //figyelmeztetés
             DialogResult dialogResult = MessageBox.Show("Biztosan törölni szeretné az összes adatot a Bucketből?", "Figyelmeztetés!", MessageBoxButtons.YesNo);
             // ha igen
             if (dialogResult == DialogResult.Yes)
             {
+                run_Timing.Reset();
+                rowsCB = 0;
+                try
+                {
+                    pictureBox_CB.Image = new Bitmap("images/loading.gif");
+                }
+                catch { }
                 try
                 {
                     var cb = new Cluster(new ClientConfiguration
@@ -853,7 +886,7 @@ namespace SzakDolg_SP_2018
                     string qq = "SELECT COUNT(*) FROM szakd;";
                     var queryresult = bucket.Query<dynamic>(qq); //Query futtatása
                     var jObject = Newtonsoft.Json.Linq.JObject.Parse(queryresult.Rows[0].ToString()); //Visszakapott JSON üzenet deserializálása
-
+                    rowsCB = (int)jObject["$1"];
                     //Bucket Flush
                     Couchbase.Management.IBucketManager cc = cb.OpenBucket("szakd").CreateManager("admin", "Patrik");
                     run_Timing.Start();
@@ -861,8 +894,8 @@ namespace SzakDolg_SP_2018
                     run_Timing.Stop();
                     if (flushres.Success)
                     {
-                        log_Query(logpath_couchbase, "FLUSH", (int)jObject["$1"], run_Timing.ElapsedMilliseconds);
-                        label_CouchBase.Text = "A Flush futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + (int)jObject["$1"];
+                        log_Query(logpath_couchbase, "FLUSH", rowsCB, run_Timing.ElapsedMilliseconds);
+                        //label_CouchBase.Text = "A Flush futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rowsCB ;
                     }
 
                 }
@@ -877,10 +910,27 @@ namespace SzakDolg_SP_2018
                 }
             }
         }
+        //Adatok törlése
+        private void button_FlushCouchB_Click(object sender, EventArgs e)
+        {
+            bgwork_CB = new BackgroundWorker();
+            bgwork_CB.WorkerSupportsCancellation = false;
+            bgwork_CB.DoWork += bgwork_FlushCouchB_DoWork;
+            bgwork_CB.RunWorkerCompleted += bgwork_CB_RunWorkerCompleted;
+            bgwork_CB.RunWorkerAsync();
+        }
 
-        private void button_SelectCouchB_Click(object sender, EventArgs e)
+        //Adatok lekérdezése
+        void bgwork_SelectCouchB_DoWork(object sender, DoWorkEventArgs e)
         {
             run_Timing.Reset();
+            rowsCB = 0;
+            try
+            {
+                pictureBox_CB.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
+
             try
             {
                 var cb = new Cluster(new ClientConfiguration
@@ -896,13 +946,12 @@ namespace SzakDolg_SP_2018
                 run_Timing.Start();
                 var queryresult = bucket.Query<dynamic>(qq); //Query futtatása
                 run_Timing.Stop();
-                int rows = queryresult.Rows.Count;
-               // var jObject = Newtonsoft.Json.Linq.JObject.Parse(queryresult.Rows[0].Count); //Visszakapott JSON üzenet deserializálása
+                rowsCB = queryresult.Rows.Count;
 
                 if (queryresult.Success)
                 {
-                    log_Query(logpath_couchbase, "SELECT *", rows, run_Timing.ElapsedMilliseconds);
-                    label_CouchBase.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                    log_Query(logpath_couchbase, "SELECT *", rowsCB, run_Timing.ElapsedMilliseconds);
+                   // label_CouchBase.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rowsCB;
                 }
 
             }
@@ -917,53 +966,83 @@ namespace SzakDolg_SP_2018
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private void button_RunN1QL_Click(object sender, EventArgs e)
+        //Adatok lekérdezése
+        private void button_SelectCouchB_Click(object sender, EventArgs e)
         {
-            run_Timing.Reset();
-            int rows = -1;
-                try
-                {
-                    var cb = new Cluster(new ClientConfiguration
-                    {
-                        Servers = new List<Uri> { new Uri("https://127.0.0.1:8091/") }
-                    });
-                    cb.Authenticate("admin", "Patrik");
-                    var bucket = cb.OpenBucket("szakd");
-                    //Adatok lekérése
-                    string qq = rTB_N1QL.Text;
-                    for (int i = 0; i < nUD_EgyediN1QL.Value; i++)
-                    {
-                        run_Timing.Start();
-                        var queryresult = bucket.Query<dynamic>(qq); //Query futtatása
-                        run_Timing.Stop();
-                        if (rTB_N1QL.Text.Contains("UDPATE szakd"))
-                        {
-                            rows = (int)queryresult.Metrics.MutationCount;
-                        }
-                        else
-                        {
-                            rows = queryresult.Rows.Count;                           
-                        }
-                        log_Query(logpath_couchbase, "Egyéni: "+rTB_N1QL.Text, rows, run_Timing.ElapsedMilliseconds);
-                        label_CouchBase.Text = "Az egyéni query(k) lefutott(ak).";
-                    }
-                }
-                catch (CouchbaseResponseException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            
+            bgwork_CB = new BackgroundWorker();
+            bgwork_CB.WorkerSupportsCancellation = false;
+            bgwork_CB.DoWork += bgwork_SelectCouchB_DoWork;
+            bgwork_CB.RunWorkerCompleted += bgwork_CB_RunWorkerCompleted;
+            bgwork_CB.RunWorkerAsync();
         }
 
-        private void button_UpdateCouchB_Click(object sender, EventArgs e)
+        //Egyedi N1QL futtatása
+        void bgwork_EgyediCouchB_DoWork(object sender, DoWorkEventArgs e)
         {
             run_Timing.Reset();
+            rowsCB = -1;
+            try
+            {
+                pictureBox_CB.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
+            try
+            {
+                var cb = new Cluster(new ClientConfiguration
+                {
+                    Servers = new List<Uri> { new Uri("https://127.0.0.1:8091/") }
+                });
+                cb.Authenticate("admin", "Patrik");
+                var bucket = cb.OpenBucket("szakd");
+                //Adatok lekérése
+                //string qq = egyediCBN1QL;
+                for (int i = 0; i < nUD_EgyediN1QL.Value; i++)
+                {
+                    run_Timing.Start();
+                    var queryresult = bucket.Query<dynamic>(egyediCBN1QL); //Query futtatása
+                    run_Timing.Stop();
+                    if (egyediCBN1QL.Contains("UDPATE szakd"))
+                    {
+                        rowsCB = (int)queryresult.Metrics.MutationCount;
+                    }
+                    else
+                    {
+                        rowsCB = queryresult.Rows.Count;
+                    }
+                    log_Query(logpath_couchbase, "Egyéni: " + egyediCBN1QL, rowsCB, run_Timing.ElapsedMilliseconds);
+                    //label_CouchBase.Text = "Az egyéni query(k) lefutott(ak).";
+                }
+            }
+            catch (CouchbaseResponseException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        //Egyedi N1QL futtatása
+        private void button_RunN1QL_Click(object sender, EventArgs e)
+        {
+            egyediCBN1QL = rTB_N1QL.Text;
+            bgwork_CB = new BackgroundWorker();
+            bgwork_CB.WorkerSupportsCancellation = false;
+            bgwork_CB.DoWork += bgwork_EgyediCouchB_DoWork;
+            bgwork_CB.RunWorkerCompleted += bgwork_CB_RunWorkerCompleted;
+            bgwork_CB.RunWorkerAsync();
+        }
+
+        void bgwork_UpdateCouchB_DoWork(object sender, DoWorkEventArgs e)
+        {
+            run_Timing.Reset();
+            rowsCB = 0;
+            try
+            {
+                pictureBox_CB.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
             try
             {
                 var cb = new Cluster(new ClientConfiguration
@@ -979,13 +1058,12 @@ namespace SzakDolg_SP_2018
                 run_Timing.Start();
                 var queryresult = bucket.Query<dynamic>(qq); //Query futtatása
                 run_Timing.Stop();
-                int rows = (int)queryresult.Metrics.MutationCount;
-                // var jObject = Newtonsoft.Json.Linq.JObject.Parse(queryresult.Rows[0].Count); //Visszakapott JSON üzenet deserializálása
+                rowsCB = (int)queryresult.Metrics.MutationCount;
 
                 if (queryresult.Success)
                 {
-                    log_Query(logpath_couchbase, "SELECT *", rows, run_Timing.ElapsedMilliseconds);
-                    label_CouchBase.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                    log_Query(logpath_couchbase, "UPDATE", rowsCB, run_Timing.ElapsedMilliseconds);
+                    //label_CouchBase.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rowsCB;
                 }
 
             }
@@ -999,6 +1077,14 @@ namespace SzakDolg_SP_2018
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        private void button_UpdateCouchB_Click(object sender, EventArgs e)
+        {
+            bgwork_CB = new BackgroundWorker();
+            bgwork_CB.WorkerSupportsCancellation = false;
+            bgwork_CB.DoWork += bgwork_UpdateCouchB_DoWork;
+            bgwork_CB.RunWorkerCompleted += bgwork_CB_RunWorkerCompleted;
+            bgwork_CB.RunWorkerAsync();
         }
         #endregion
 

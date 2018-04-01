@@ -45,6 +45,7 @@
             this.button_LoadDataMys = new System.Windows.Forms.Button();
             this.button_InsertMys = new System.Windows.Forms.Button();
             this.panel_PG = new System.Windows.Forms.Panel();
+            this.pictureBox_PG = new System.Windows.Forms.PictureBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.nUD_EgyediPG = new System.Windows.Forms.NumericUpDown();
@@ -95,12 +96,13 @@
             this.button_MySLog = new System.Windows.Forms.Button();
             this.button_CBLog = new System.Windows.Forms.Button();
             this.button_PGLog = new System.Windows.Forms.Button();
-            this.pictureBox_PG = new System.Windows.Forms.PictureBox();
+            this.pictureBox_CB = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel_MyS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MyS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUd_HanyszorMyS)).BeginInit();
             this.panel_PG.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediPG)).BeginInit();
             this.panel_CB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediN1QL)).BeginInit();
@@ -112,7 +114,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dGV_MyS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PG)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CB)).BeginInit();
             this.SuspendLayout();
             // 
             // label_MySqlConn
@@ -339,6 +341,16 @@
             this.panel_PG.Size = new System.Drawing.Size(363, 378);
             this.panel_PG.TabIndex = 4;
             // 
+            // pictureBox_PG
+            // 
+            this.pictureBox_PG.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_PG.Location = new System.Drawing.Point(235, 61);
+            this.pictureBox_PG.Name = "pictureBox_PG";
+            this.pictureBox_PG.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox_PG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_PG.TabIndex = 24;
+            this.pictureBox_PG.TabStop = false;
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -490,6 +502,7 @@
             this.panel_CB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_CB.Controls.Add(this.pictureBox_CB);
             this.panel_CB.Controls.Add(this.button_InsertCouchB);
             this.panel_CB.Controls.Add(this.label_CouchBase);
             this.panel_CB.Controls.Add(this.button_RunN1QL);
@@ -948,15 +961,15 @@
             this.button_PGLog.UseVisualStyleBackColor = true;
             this.button_PGLog.Click += new System.EventHandler(this.button_PGLog_Click);
             // 
-            // pictureBox_PG
+            // pictureBox_CB
             // 
-            this.pictureBox_PG.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox_PG.Location = new System.Drawing.Point(235, 61);
-            this.pictureBox_PG.Name = "pictureBox_PG";
-            this.pictureBox_PG.Size = new System.Drawing.Size(100, 100);
-            this.pictureBox_PG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_PG.TabIndex = 24;
-            this.pictureBox_PG.TabStop = false;
+            this.pictureBox_CB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_CB.Location = new System.Drawing.Point(250, 61);
+            this.pictureBox_CB.Name = "pictureBox_CB";
+            this.pictureBox_CB.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox_CB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_CB.TabIndex = 25;
+            this.pictureBox_CB.TabStop = false;
             // 
             // Form1
             // 
@@ -975,6 +988,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUd_HanyszorMyS)).EndInit();
             this.panel_PG.ResumeLayout(false);
             this.panel_PG.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediPG)).EndInit();
             this.panel_CB.ResumeLayout(false);
             this.panel_CB.PerformLayout();
@@ -988,7 +1002,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dGV_MyS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PG)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CB)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1062,6 +1076,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn c_runTime;
         private System.Windows.Forms.PictureBox pictureBox_MyS;
         private System.Windows.Forms.PictureBox pictureBox_PG;
+        private System.Windows.Forms.PictureBox pictureBox_CB;
     }
 }
 
