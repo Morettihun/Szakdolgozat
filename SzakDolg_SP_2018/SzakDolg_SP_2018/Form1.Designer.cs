@@ -95,6 +95,7 @@
             this.button_MySLog = new System.Windows.Forms.Button();
             this.button_CBLog = new System.Windows.Forms.Button();
             this.button_PGLog = new System.Windows.Forms.Button();
+            this.pictureBox_PG = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel_MyS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MyS)).BeginInit();
@@ -111,6 +112,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dGV_MyS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PG)).BeginInit();
             this.SuspendLayout();
             // 
             // label_MySqlConn
@@ -319,6 +321,7 @@
             this.panel_PG.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_PG.Controls.Add(this.pictureBox_PG);
             this.panel_PG.Controls.Add(this.label10);
             this.panel_PG.Controls.Add(this.label8);
             this.panel_PG.Controls.Add(this.nUD_EgyediPG);
@@ -945,6 +948,16 @@
             this.button_PGLog.UseVisualStyleBackColor = true;
             this.button_PGLog.Click += new System.EventHandler(this.button_PGLog_Click);
             // 
+            // pictureBox_PG
+            // 
+            this.pictureBox_PG.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_PG.Location = new System.Drawing.Point(235, 61);
+            this.pictureBox_PG.Name = "pictureBox_PG";
+            this.pictureBox_PG.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox_PG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_PG.TabIndex = 24;
+            this.pictureBox_PG.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -975,6 +988,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dGV_MyS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PG)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1047,6 +1061,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn c_Rows;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_runTime;
         private System.Windows.Forms.PictureBox pictureBox_MyS;
+        private System.Windows.Forms.PictureBox pictureBox_PG;
     }
 }
 

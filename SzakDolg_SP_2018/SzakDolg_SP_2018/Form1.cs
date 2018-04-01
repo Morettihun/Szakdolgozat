@@ -36,11 +36,17 @@ namespace SzakDolg_SP_2018
         string logpath_postgresql = @"log\postgresql_log.csv";
         string logpath_couchbase = @"log\couchbase_log.csv";
         Stopwatch run_Timing = new Stopwatch();
-        int rows = 0;
+        int rowsMyS = 0;
+        int rowsPG = 0;
+        int rowsCB = 0;
 
         private BackgroundWorker bgwork_MyS;
         private BackgroundWorker bgwork_PG;
         private BackgroundWorker bgwork_CB;
+
+        string egyediPGquery = null;
+        string egyediMySquery = null;
+        string egyediCBN1QL = null;
         public Form1()
         {
             InitializeComponent();
@@ -123,22 +129,25 @@ namespace SzakDolg_SP_2018
             cmd.Connection = connMyS;
 
             run_Timing.Start();
-            rows += cmd.ExecuteNonQuery();
+            rowsMyS += cmd.ExecuteNonQuery();
 
             run_Timing.Stop();
             //return rows;
         }
         void bgwork_MyS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+            label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rowsMyS;
             pictureBox_MyS.Image = null;
         }
 
         void bgwork_MySInsert_DoWork(object sender, DoWorkEventArgs e)
         {
-           rows = 0;
-
-            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+           rowsMyS = 0;
+           try
+           {
+               pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+           }
+           catch { }
             run_Timing.Reset();
             try
             {
@@ -162,7 +171,7 @@ namespace SzakDolg_SP_2018
                     runMySQL(comm);
                 }
 
-                log_Query(logpath_mysql, "DML_INSERT", rows, run_Timing.ElapsedMilliseconds);
+                log_Query(logpath_mysql, "DML_INSERT", rowsMyS, run_Timing.ElapsedMilliseconds);
             }
             catch (MySqlException ex)
             {
@@ -192,9 +201,12 @@ namespace SzakDolg_SP_2018
         //Load Data-val feltöltés
         void bgwork_MySLoad_DoWork(object sender, DoWorkEventArgs e)
         {
-            rows = 0;
-
-            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            rowsMyS = 0;
+            try
+            {
+                pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
             run_Timing.Reset();
             try
             {
@@ -206,7 +218,7 @@ namespace SzakDolg_SP_2018
                 //rows = runMySQL(comm);
                 runMySQL(comm);
 
-                log_Query(logpath_mysql, "LOAD_DATA", rows, run_Timing.ElapsedMilliseconds);
+                log_Query(logpath_mysql, "LOAD_DATA", rowsMyS, run_Timing.ElapsedMilliseconds);
             }
             catch (MySqlException ex)
             {
@@ -235,9 +247,13 @@ namespace SzakDolg_SP_2018
         //Adatok törlése
         void bgwork_MySDelete_DoWork(object sender, DoWorkEventArgs e)
         {
-            rows = 0;
+            rowsMyS = 0;
             run_Timing.Reset();
-            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            try
+            {
+                pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
             //figyelmeztetés
             DialogResult dialogResult = MessageBox.Show("Biztosan törölni szeretné az összes adatot az adatbázisból?", "Figyelmeztetés!", MessageBoxButtons.YesNo);
             // ha igen
@@ -254,7 +270,7 @@ namespace SzakDolg_SP_2018
                     
                     //label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
-                    log_Query(logpath_mysql, "DELETE", rows, run_Timing.ElapsedMilliseconds);
+                    log_Query(logpath_mysql, "DELETE", rowsMyS, run_Timing.ElapsedMilliseconds);
                 }
                 catch (MySqlException ex)
                 {
@@ -283,9 +299,13 @@ namespace SzakDolg_SP_2018
         //Select * futtatása
         void bgwork_MySSelect_DoWork(object sender, DoWorkEventArgs e)
         {
-            rows = 0;
+            rowsMyS = 0;
             run_Timing.Reset();
-            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            try
+            {
+                pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
             try
             {
                 connMyS.Open();
@@ -297,7 +317,7 @@ namespace SzakDolg_SP_2018
 
                 //label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
-                log_Query(logpath_mysql, "SELECT *", rows, run_Timing.ElapsedMilliseconds);
+                log_Query(logpath_mysql, "SELECT *", rowsMyS, run_Timing.ElapsedMilliseconds);
             }
             catch (MySqlException ex)
             {
@@ -325,9 +345,13 @@ namespace SzakDolg_SP_2018
         //Egyedi Query
         void bgwork_MySQuery_DoWork(object sender, DoWorkEventArgs e)
         {
-            rows = 0;
+            rowsMyS = 0;
             run_Timing.Reset();
-            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            try
+            {
+                pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
             //List<int> rt = new List<int>();
             //List<long> elms = new List<long>();
             try
@@ -335,14 +359,14 @@ namespace SzakDolg_SP_2018
                 connMyS.Open();
 
                 MySqlCommand comm = new MySqlCommand();
-                comm.CommandText = rTB_QueryMys.Text;
+                comm.CommandText = egyediMySquery;
                 for (int i = 0; i < nUd_HanyszorMyS.Value; i++)
                 {
                     run_Timing.Reset();
-                    rows = 0;
+                    rowsMyS = 0;
                     // rows = runMySQL(comm);
                     runMySQL(comm);
-                    log_Query(logpath_mysql, "Egyedi: " + rTB_QueryMys.Text, rows, run_Timing.ElapsedMilliseconds);
+                    log_Query(logpath_mysql, "Egyedi: " + egyediMySquery, rowsMyS, run_Timing.ElapsedMilliseconds);
 
                 }
 
@@ -366,6 +390,7 @@ namespace SzakDolg_SP_2018
         //Egyedi query
         private void button_QueryMys_Click(object sender, EventArgs e)
         {
+            egyediMySquery = rTB_QueryMys.Text;
             bgwork_MyS = new BackgroundWorker();
             bgwork_MyS.WorkerSupportsCancellation = false;
             bgwork_MyS.DoWork += bgwork_MySQuery_DoWork;
@@ -376,9 +401,13 @@ namespace SzakDolg_SP_2018
         //Adatok frissítése
         void bgwork_MySUpdate_DoWork(object sender, DoWorkEventArgs e)
         {
-            rows = 0;
+            rowsMyS = 0;
             run_Timing.Reset();
-            pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            try
+            {
+                pictureBox_MyS.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
             try
             {
                 connMyS.Open();
@@ -390,7 +419,7 @@ namespace SzakDolg_SP_2018
                 runMySQL(comm);
                 //label_MySqlConn.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
 
-                log_Query(logpath_mysql, "UPDATE", rows, run_Timing.ElapsedMilliseconds);
+                log_Query(logpath_mysql, "UPDATE", rowsMyS, run_Timing.ElapsedMilliseconds);
             }
             catch (MySqlException ex)
             {
@@ -418,13 +447,26 @@ namespace SzakDolg_SP_2018
 
 
         #region PostGRESQL
-        private void button_InsertPG_Click(object sender, EventArgs e)
+
+        void bgwork_PG_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            label_PG.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rowsPG;
+            pictureBox_PG.Image = null;
+        }
+
+        //Adatok feltöltése
+        void bgwork_InsertPG_DoWork(object sender, DoWorkEventArgs e)
         {
             run_Timing.Reset();
             try
             {
+                pictureBox_PG.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
+            try
+            {
                 StreamReader srgen = new StreamReader(generatedpath);
-                int rows = 0;
+                rowsPG = 0;
                 connPG.Open();
                 while (!srgen.EndOfStream)
                 {
@@ -439,13 +481,13 @@ namespace SzakDolg_SP_2018
                     comm.Parameters.Add(new NpgsqlParameter("@Varos_id", DbType.Int32)).Value = datas[3];
 
                     run_Timing.Start();
-                    rows += comm.ExecuteNonQuery();
+                    rowsPG += comm.ExecuteNonQuery();
                     run_Timing.Stop();
 
-                    label_PG.Text = "A feltöltés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+                    //label_PG.Text = "A feltöltés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rowsPG;
                 }
-               // connPG.Close();
-                log_Query(logpath_postgresql, "DML_INSERT", rows, run_Timing.ElapsedMilliseconds);
+                // connPG.Close();
+                log_Query(logpath_postgresql, "DML_INSERT", rowsPG, run_Timing.ElapsedMilliseconds);
             }
 
             catch (NpgsqlException ex)
@@ -460,6 +502,225 @@ namespace SzakDolg_SP_2018
             {
                 connPG.Close();
             }
+        }
+        //Adatok feltöltése
+        private void button_InsertPG_Click(object sender, EventArgs e)
+        {
+            bgwork_PG = new BackgroundWorker();
+            bgwork_PG.WorkerSupportsCancellation = false;
+            bgwork_PG.DoWork += bgwork_InsertPG_DoWork;
+            bgwork_PG.RunWorkerCompleted += bgwork_PG_RunWorkerCompleted;
+            bgwork_PG.RunWorkerAsync();
+        }
+        //Adatok törlése
+        void bgwork_DeletePG_DoWork(object sender, DoWorkEventArgs e)
+        {
+            run_Timing.Reset();
+            try
+            {
+                pictureBox_PG.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
+            //figyelmeztetés
+            DialogResult dialogResult = MessageBox.Show("Biztosan törölni szeretné az összes adatot az adatbázisból?", "Figyelmeztetés!", MessageBoxButtons.YesNo);
+            // ha igen
+            if (dialogResult == DialogResult.Yes)
+            {
+                try
+                {
+
+                    rowsPG = 0;
+                    connPG.Open();
+
+                    NpgsqlCommand comm = connPG.CreateCommand();
+                    //comm.CommandText = "INSERT INTO szakdoga.\"Tanulok\" (\"NK\",\"Nev\",\"Email\",\"Varos_id\") VALUES (@NK,@Nev,@Email,@Varos_id);";
+                    comm.CommandText = "DELETE FROM szakdoga.\"Tanulok\" WHERE 1=1;";
+                    run_Timing.Start();
+                    rowsPG += comm.ExecuteNonQuery();
+                    run_Timing.Stop();
+
+                    //label_PG.Text = "A törlés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rowsPG;
+
+
+                    log_Query(logpath_postgresql, "DML_DELETE", rowsPG, run_Timing.ElapsedMilliseconds);
+                }
+
+                catch (NpgsqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connPG.Close();
+                }
+            }
+        }
+        //Adatok törlése
+        private void button_DeletePG_Click(object sender, EventArgs e)
+        {
+            bgwork_PG = new BackgroundWorker();
+            bgwork_PG.WorkerSupportsCancellation = false;
+            bgwork_PG.DoWork += bgwork_DeletePG_DoWork;
+            bgwork_PG.RunWorkerCompleted += bgwork_PG_RunWorkerCompleted;
+            bgwork_PG.RunWorkerAsync();
+        }
+
+        //Adatok lekérdezése
+        void bgwork_SelectPG_DoWork(object sender, DoWorkEventArgs e)
+        {
+            run_Timing.Reset();
+            try
+            {
+                pictureBox_PG.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
+            try
+            {
+
+                rowsPG = 0;
+                connPG.Open();
+
+                NpgsqlCommand comm = connPG.CreateCommand();
+                comm.CommandText = "SELECT * FROM szakdoga.\"Tanulok\"";
+                run_Timing.Start();
+                rowsPG += comm.ExecuteNonQuery();
+                run_Timing.Stop();
+
+                //label_PG.Text = "A lekérdezés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+
+
+                log_Query(logpath_postgresql, "DML_SELECT", rowsPG, run_Timing.ElapsedMilliseconds);
+            }
+
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                connPG.Close();
+            }
+        }
+        //Adatok lekérdezése
+        private void button_SelectPG_Click(object sender, EventArgs e)
+        {
+            bgwork_PG = new BackgroundWorker();
+            bgwork_PG.WorkerSupportsCancellation = false;
+            bgwork_PG.DoWork += bgwork_SelectPG_DoWork;
+            bgwork_PG.RunWorkerCompleted += bgwork_PG_RunWorkerCompleted;
+            bgwork_PG.RunWorkerAsync();
+
+        }
+        //Adatok frissítése
+        void bgwork_UpdatePG_DoWork(object sender, DoWorkEventArgs e)
+        {
+            run_Timing.Reset();
+            try
+            {
+                pictureBox_PG.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
+            try
+            {
+
+                rowsPG = 0;
+                connPG.Open();
+
+                NpgsqlCommand comm = connPG.CreateCommand();
+                comm.CommandText = "UPDATE szakdoga.\"Tanulok\" SET \"Email\"='updatelt@gmail.com' WHERE 1=1;";
+                run_Timing.Start();
+                rowsPG += comm.ExecuteNonQuery();
+                run_Timing.Stop();
+
+                //label_PG.Text = "A módosítás " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+
+
+                log_Query(logpath_postgresql, "DML_UPDATE", rowsPG, run_Timing.ElapsedMilliseconds);
+            }
+
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                connPG.Close();
+            }
+        }
+        //Adatok frissítése
+        private void button_UpdatePG_Click(object sender, EventArgs e)
+        {
+            bgwork_PG = new BackgroundWorker();
+            bgwork_PG.WorkerSupportsCancellation = false;
+            bgwork_PG.DoWork += bgwork_UpdatePG_DoWork;
+            bgwork_PG.RunWorkerCompleted += bgwork_PG_RunWorkerCompleted;
+            bgwork_PG.RunWorkerAsync();
+        }
+        //Egyedi Query
+        void bgwork_EgyediPG_DoWork(object sender, DoWorkEventArgs e)
+        {
+            run_Timing.Reset();
+            try
+            {
+                pictureBox_PG.Image = new Bitmap("images/loading.gif");
+            }
+            catch { }
+            try
+            {
+                rowsPG = 0;
+                connPG.Open();
+
+                NpgsqlCommand comm = connPG.CreateCommand();
+                comm.CommandText = egyediPGquery;
+                for (int i = 0; i < nUD_EgyediPG.Value; i++)
+                {
+                    run_Timing.Reset();
+                    run_Timing.Start();
+                    rowsPG = comm.ExecuteNonQuery();
+                    run_Timing.Stop();
+
+                    log_Query(logpath_postgresql, "Egyedi: " + egyediPGquery, rowsPG, run_Timing.ElapsedMilliseconds);
+                    
+                }
+
+                //label_PG.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
+
+
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
+            }
+            finally
+            {
+                connPG.Close();
+            }
+        }
+        private void button_EgyediPG_Click(object sender, EventArgs e)
+        {
+            egyediPGquery = rTB_QueryPG.Text;
+            bgwork_PG = new BackgroundWorker();
+            bgwork_PG.WorkerSupportsCancellation = false;
+            bgwork_PG.DoWork += bgwork_EgyediPG_DoWork;
+            bgwork_PG.RunWorkerCompleted += bgwork_PG_RunWorkerCompleted;
+            bgwork_PG.RunWorkerAsync();
+           
         }
         #endregion
     
@@ -741,158 +1002,8 @@ namespace SzakDolg_SP_2018
         }
         #endregion
 
-        private void button_DeletePG_Click(object sender, EventArgs e)
-        {
-            run_Timing.Reset();
-             //figyelmeztetés
-            DialogResult dialogResult = MessageBox.Show("Biztosan törölni szeretné az összes adatot az adatbázisból?", "Figyelmeztetés!", MessageBoxButtons.YesNo);
-            // ha igen
-            if (dialogResult == DialogResult.Yes)
-            {
-                try
-                {
 
-                    int rows = 0;
-                    connPG.Open();
-
-                    NpgsqlCommand comm = connPG.CreateCommand();
-                    //comm.CommandText = "INSERT INTO szakdoga.\"Tanulok\" (\"NK\",\"Nev\",\"Email\",\"Varos_id\") VALUES (@NK,@Nev,@Email,@Varos_id);";
-                    comm.CommandText = "DELETE FROM szakdoga.\"Tanulok\" WHERE 1=1;";
-                    run_Timing.Start();
-                    rows += comm.ExecuteNonQuery();
-                    run_Timing.Stop();
-
-                    label_PG.Text = "A törlés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-
-
-                    log_Query(logpath_postgresql, "DML_DELETE", rows, run_Timing.ElapsedMilliseconds);
-                }
-
-                catch (NpgsqlException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    connPG.Close();
-                }
-            }
-        }
-
-        private void button_SelectPG_Click(object sender, EventArgs e)
-        {
-            run_Timing.Reset();
-            try
-            {
-
-                int rows = 0;
-                connPG.Open();
-
-                NpgsqlCommand comm = connPG.CreateCommand();
-                //comm.CommandText = "INSERT INTO szakdoga.\"Tanulok\" (\"NK\",\"Nev\",\"Email\",\"Varos_id\") VALUES (@NK,@Nev,@Email,@Varos_id);";
-                comm.CommandText = "SELECT * FROM szakdoga.\"Tanulok\"";
-                run_Timing.Start();
-                rows += comm.ExecuteNonQuery();
-                run_Timing.Stop();
-
-                label_PG.Text = "A lekérdezés " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-
-
-                log_Query(logpath_postgresql, "DML_SELECT", rows, run_Timing.ElapsedMilliseconds);
-            }
-
-            catch (NpgsqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                connPG.Close();
-            }
-
-        }
-
-        private void button_UpdatePG_Click(object sender, EventArgs e)
-        {
-            run_Timing.Reset();
-            try
-            {
-
-                int rows = 0;
-                connPG.Open();
-
-                NpgsqlCommand comm = connPG.CreateCommand();
-                //comm.CommandText = "INSERT INTO szakdoga.\"Tanulok\" (\"NK\",\"Nev\",\"Email\",\"Varos_id\") VALUES (@NK,@Nev,@Email,@Varos_id);";
-                comm.CommandText = "UPDATE szakdoga.\"Tanulok\" SET \"Email\"='updatelt@gmail.com' WHERE 1=1;";
-                run_Timing.Start();
-                rows += comm.ExecuteNonQuery();
-                run_Timing.Stop();
-
-                label_PG.Text = "A módosítás " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-
-
-                log_Query(logpath_postgresql, "DML_UPDATE", rows, run_Timing.ElapsedMilliseconds);
-            }
-
-            catch (NpgsqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                connPG.Close();
-            }
-        }
-
-        private void button_EgyediPG_Click(object sender, EventArgs e)
-        {
-            int rows = 0;
-            run_Timing.Reset();
-            try
-            {
-                connPG.Open();
-
-                NpgsqlCommand comm = connPG.CreateCommand();
-                comm.CommandText = rTB_QueryPG.Text;
-                for (int i = 0; i < nUD_EgyediPG.Value; i++)
-                {
-                    run_Timing.Reset();
-                    rows = comm.ExecuteNonQuery();
-                    log_Query(logpath_postgresql, "Egyedi: " + rTB_QueryPG.Text, rows, run_Timing.ElapsedMilliseconds);
-                }
-
-                label_PG.Text = "A query futása " + run_Timing.ElapsedMilliseconds + "ms ideig tartott. Érintett sorok: " + rows;
-               
-
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                connMyS.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hiba történt:\n" + ex.Message, "Hiba");
-                connMyS.Close();
-            }
-            finally
-            {
-                connPG.Close();
-            }
-        }
-
+        #region logs
         private void button_MySLog_Click(object sender, EventArgs e)
         {
 
@@ -959,8 +1070,8 @@ namespace SzakDolg_SP_2018
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
 
-        
 
     }
 }
