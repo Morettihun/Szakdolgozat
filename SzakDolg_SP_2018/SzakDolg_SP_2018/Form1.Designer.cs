@@ -55,10 +55,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.rTB_QueryPG = new System.Windows.Forms.RichTextBox();
             this.button_DeletePG = new System.Windows.Forms.Button();
-            this.button_LoadDataPG = new System.Windows.Forms.Button();
             this.label_PG = new System.Windows.Forms.Label();
             this.button_InsertPG = new System.Windows.Forms.Button();
             this.panel_CB = new System.Windows.Forms.Panel();
+            this.pictureBox_CB = new System.Windows.Forms.PictureBox();
             this.button_InsertCouchB = new System.Windows.Forms.Button();
             this.label_CouchBase = new System.Windows.Forms.Label();
             this.button_RunN1QL = new System.Windows.Forms.Button();
@@ -70,7 +70,6 @@
             this.button_UpdateCouchB = new System.Windows.Forms.Button();
             this.button_SelectCouchB = new System.Windows.Forms.Button();
             this.button_FlushCouchB = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button_Generate = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.nUD_Generate = new System.Windows.Forms.NumericUpDown();
@@ -96,7 +95,7 @@
             this.button_MySLog = new System.Windows.Forms.Button();
             this.button_CBLog = new System.Windows.Forms.Button();
             this.button_PGLog = new System.Windows.Forms.Button();
-            this.pictureBox_CB = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel_MyS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MyS)).BeginInit();
@@ -105,6 +104,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_PG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediPG)).BeginInit();
             this.panel_CB.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediN1QL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_Generate)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -114,7 +114,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dGV_MyS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CB)).BeginInit();
             this.SuspendLayout();
             // 
             // label_MySqlConn
@@ -219,7 +218,7 @@
             // 
             this.button_UpdateMys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_UpdateMys.Location = new System.Drawing.Point(6, 150);
+            this.button_UpdateMys.Location = new System.Drawing.Point(6, 119);
             this.button_UpdateMys.Name = "button_UpdateMys";
             this.button_UpdateMys.Size = new System.Drawing.Size(174, 23);
             this.button_UpdateMys.TabIndex = 11;
@@ -231,7 +230,7 @@
             // 
             this.button_SelectMys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_SelectMys.Location = new System.Drawing.Point(6, 121);
+            this.button_SelectMys.Location = new System.Drawing.Point(5, 90);
             this.button_SelectMys.Name = "button_SelectMys";
             this.button_SelectMys.Size = new System.Drawing.Size(175, 23);
             this.button_SelectMys.TabIndex = 10;
@@ -286,7 +285,7 @@
             // 
             this.button_DeleteMys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_DeleteMys.Location = new System.Drawing.Point(6, 90);
+            this.button_DeleteMys.Location = new System.Drawing.Point(5, 61);
             this.button_DeleteMys.Name = "button_DeleteMys";
             this.button_DeleteMys.Size = new System.Drawing.Size(175, 23);
             this.button_DeleteMys.TabIndex = 5;
@@ -298,7 +297,7 @@
             // 
             this.button_LoadDataMys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_LoadDataMys.Location = new System.Drawing.Point(4, 61);
+            this.button_LoadDataMys.Location = new System.Drawing.Point(7, 160);
             this.button_LoadDataMys.Name = "button_LoadDataMys";
             this.button_LoadDataMys.Size = new System.Drawing.Size(175, 23);
             this.button_LoadDataMys.TabIndex = 4;
@@ -310,7 +309,7 @@
             // 
             this.button_InsertMys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_InsertMys.Location = new System.Drawing.Point(4, 33);
+            this.button_InsertMys.Location = new System.Drawing.Point(5, 32);
             this.button_InsertMys.Name = "button_InsertMys";
             this.button_InsertMys.Size = new System.Drawing.Size(177, 23);
             this.button_InsertMys.TabIndex = 2;
@@ -333,7 +332,6 @@
             this.panel_PG.Controls.Add(this.label9);
             this.panel_PG.Controls.Add(this.rTB_QueryPG);
             this.panel_PG.Controls.Add(this.button_DeletePG);
-            this.panel_PG.Controls.Add(this.button_LoadDataPG);
             this.panel_PG.Controls.Add(this.label_PG);
             this.panel_PG.Controls.Add(this.button_InsertPG);
             this.panel_PG.Location = new System.Drawing.Point(372, 3);
@@ -399,7 +397,7 @@
             // 
             this.button_UpdatePG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_UpdatePG.Location = new System.Drawing.Point(4, 150);
+            this.button_UpdatePG.Location = new System.Drawing.Point(4, 148);
             this.button_UpdatePG.Name = "button_UpdatePG";
             this.button_UpdatePG.Size = new System.Drawing.Size(180, 23);
             this.button_UpdatePG.TabIndex = 21;
@@ -411,7 +409,7 @@
             // 
             this.button_SelectPG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_SelectPG.Location = new System.Drawing.Point(3, 120);
+            this.button_SelectPG.Location = new System.Drawing.Point(3, 110);
             this.button_SelectPG.Name = "button_SelectPG";
             this.button_SelectPG.Size = new System.Drawing.Size(181, 23);
             this.button_SelectPG.TabIndex = 20;
@@ -455,24 +453,13 @@
             // 
             this.button_DeletePG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_DeletePG.Location = new System.Drawing.Point(3, 91);
+            this.button_DeletePG.Location = new System.Drawing.Point(0, 72);
             this.button_DeletePG.Name = "button_DeletePG";
             this.button_DeletePG.Size = new System.Drawing.Size(181, 23);
             this.button_DeletePG.TabIndex = 15;
             this.button_DeletePG.Text = "Minden törlése [DELETE]";
             this.button_DeletePG.UseVisualStyleBackColor = true;
             this.button_DeletePG.Click += new System.EventHandler(this.button_DeletePG_Click);
-            // 
-            // button_LoadDataPG
-            // 
-            this.button_LoadDataPG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_LoadDataPG.Location = new System.Drawing.Point(3, 62);
-            this.button_LoadDataPG.Name = "button_LoadDataPG";
-            this.button_LoadDataPG.Size = new System.Drawing.Size(181, 23);
-            this.button_LoadDataPG.TabIndex = 14;
-            this.button_LoadDataPG.Text = "Adatok Feltöltése [LOAD DATA]";
-            this.button_LoadDataPG.UseVisualStyleBackColor = true;
             // 
             // label_PG
             // 
@@ -502,6 +489,7 @@
             this.panel_CB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_CB.Controls.Add(this.button1);
             this.panel_CB.Controls.Add(this.pictureBox_CB);
             this.panel_CB.Controls.Add(this.button_InsertCouchB);
             this.panel_CB.Controls.Add(this.label_CouchBase);
@@ -514,11 +502,20 @@
             this.panel_CB.Controls.Add(this.button_UpdateCouchB);
             this.panel_CB.Controls.Add(this.button_SelectCouchB);
             this.panel_CB.Controls.Add(this.button_FlushCouchB);
-            this.panel_CB.Controls.Add(this.button2);
             this.panel_CB.Location = new System.Drawing.Point(741, 3);
             this.panel_CB.Name = "panel_CB";
             this.panel_CB.Size = new System.Drawing.Size(364, 378);
             this.panel_CB.TabIndex = 5;
+            // 
+            // pictureBox_CB
+            // 
+            this.pictureBox_CB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_CB.Location = new System.Drawing.Point(250, 61);
+            this.pictureBox_CB.Name = "pictureBox_CB";
+            this.pictureBox_CB.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox_CB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_CB.TabIndex = 25;
+            this.pictureBox_CB.TabStop = false;
             // 
             // button_InsertCouchB
             // 
@@ -635,7 +632,7 @@
             // 
             this.button_SelectCouchB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_SelectCouchB.Location = new System.Drawing.Point(9, 119);
+            this.button_SelectCouchB.Location = new System.Drawing.Point(9, 110);
             this.button_SelectCouchB.Name = "button_SelectCouchB";
             this.button_SelectCouchB.Size = new System.Drawing.Size(173, 23);
             this.button_SelectCouchB.TabIndex = 2;
@@ -647,24 +644,13 @@
             // 
             this.button_FlushCouchB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_FlushCouchB.Location = new System.Drawing.Point(9, 90);
+            this.button_FlushCouchB.Location = new System.Drawing.Point(9, 72);
             this.button_FlushCouchB.Name = "button_FlushCouchB";
             this.button_FlushCouchB.Size = new System.Drawing.Size(173, 23);
             this.button_FlushCouchB.TabIndex = 1;
             this.button_FlushCouchB.Text = "Minden törlése [FLUSH]";
             this.button_FlushCouchB.UseVisualStyleBackColor = true;
             this.button_FlushCouchB.Click += new System.EventHandler(this.button_FlushCouchB_Click);
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(9, 62);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(80, 23);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // button_Generate
             // 
@@ -790,31 +776,30 @@
             // 
             // dataGridViewTextBoxColumn5
             // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn5.HeaderText = "Időpont";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 68;
             // 
             // dataGridViewTextBoxColumn6
             // 
-            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn6.HeaderText = "Query";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Width = 60;
             // 
             // dataGridViewTextBoxColumn7
             // 
-            this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn7.FillWeight = 50F;
             this.dataGridViewTextBoxColumn7.HeaderText = "Sorok száma";
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            this.dataGridViewTextBoxColumn7.Width = 93;
             // 
             // dataGridViewTextBoxColumn8
             // 
             this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn8.FillWeight = 50F;
             this.dataGridViewTextBoxColumn8.HeaderText = "Futási idő";
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
@@ -841,31 +826,30 @@
             // 
             // dataGridViewTextBoxColumn1
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn1.HeaderText = "Időpont";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 68;
             // 
             // dataGridViewTextBoxColumn2
             // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn2.HeaderText = "Query";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 60;
             // 
             // dataGridViewTextBoxColumn3
             // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.FillWeight = 50F;
             this.dataGridViewTextBoxColumn3.HeaderText = "Sorok száma";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Width = 93;
             // 
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn4.FillWeight = 50F;
             this.dataGridViewTextBoxColumn4.HeaderText = "Futási idő";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
@@ -892,31 +876,30 @@
             // 
             // c_Time
             // 
-            this.c_Time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.c_Time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.c_Time.HeaderText = "Időpont";
             this.c_Time.Name = "c_Time";
             this.c_Time.ReadOnly = true;
-            this.c_Time.Width = 68;
             // 
             // c_Comm
             // 
-            this.c_Comm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.c_Comm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.c_Comm.HeaderText = "Query";
             this.c_Comm.Name = "c_Comm";
             this.c_Comm.ReadOnly = true;
-            this.c_Comm.Width = 60;
             // 
             // c_Rows
             // 
-            this.c_Rows.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.c_Rows.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.c_Rows.FillWeight = 50F;
             this.c_Rows.HeaderText = "Sorok száma";
             this.c_Rows.Name = "c_Rows";
             this.c_Rows.ReadOnly = true;
-            this.c_Rows.Width = 93;
             // 
             // c_runTime
             // 
             this.c_runTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.c_runTime.FillWeight = 50F;
             this.c_runTime.HeaderText = "Futási idő";
             this.c_runTime.Name = "c_runTime";
             this.c_runTime.ReadOnly = true;
@@ -961,15 +944,15 @@
             this.button_PGLog.UseVisualStyleBackColor = true;
             this.button_PGLog.Click += new System.EventHandler(this.button_PGLog_Click);
             // 
-            // pictureBox_CB
+            // button1
             // 
-            this.pictureBox_CB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox_CB.Location = new System.Drawing.Point(250, 61);
-            this.pictureBox_CB.Name = "pictureBox_CB";
-            this.pictureBox_CB.Size = new System.Drawing.Size(100, 100);
-            this.pictureBox_CB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_CB.TabIndex = 25;
-            this.pictureBox_CB.TabStop = false;
+            this.button1.Location = new System.Drawing.Point(250, 14);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 26;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -992,6 +975,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediPG)).EndInit();
             this.panel_CB.ResumeLayout(false);
             this.panel_CB.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_EgyediN1QL)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUD_Generate)).EndInit();
             this.tabControl1.ResumeLayout(false);
@@ -1002,7 +986,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dGV_MyS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_PG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_CB)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_CB)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1032,7 +1015,6 @@
         private System.Windows.Forms.Button button_UpdateCouchB;
         private System.Windows.Forms.Button button_SelectCouchB;
         private System.Windows.Forms.Button button_FlushCouchB;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label_CouchBase;
         private System.Windows.Forms.Button button_RunN1QL;
         private System.Windows.Forms.NumericUpDown nUD_EgyediN1QL;
@@ -1049,7 +1031,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.RichTextBox rTB_QueryPG;
         private System.Windows.Forms.Button button_DeletePG;
-        private System.Windows.Forms.Button button_LoadDataPG;
         private System.Windows.Forms.Label label_PG;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TabControl tabControl1;
@@ -1062,6 +1043,9 @@
         private System.Windows.Forms.Button button_PGLog;
         private System.Windows.Forms.DataGridView dGV_MyS;
         private System.Windows.Forms.DataGridView dGV_PG;
+        private System.Windows.Forms.PictureBox pictureBox_MyS;
+        private System.Windows.Forms.PictureBox pictureBox_PG;
+        private System.Windows.Forms.PictureBox pictureBox_CB;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
@@ -1074,9 +1058,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn c_Comm;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_Rows;
         private System.Windows.Forms.DataGridViewTextBoxColumn c_runTime;
-        private System.Windows.Forms.PictureBox pictureBox_MyS;
-        private System.Windows.Forms.PictureBox pictureBox_PG;
-        private System.Windows.Forms.PictureBox pictureBox_CB;
+        private System.Windows.Forms.Button button1;
     }
 }
 
